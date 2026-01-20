@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uai, que alegria! | Pedido Confirmado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cafe: #5D2E0C; 
+            --ambar: #F39C12;  
+            --bg-page: #EAE7E1; 
+            --bg-white: #FFFFFF;
+            --text: #333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-page); color: var(--text); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+
+        .card-sucesso {
+            max-width: 600px;
+            width: 100%;
+            background: var(--bg-white);
+            border-radius: 8px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            text-align: center;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+
+        .banner-sucesso {
+            height: 200px;
+            background: linear-gradient(rgba(93, 46, 12, 0.4), rgba(93, 46, 12, 0.4)), url('img/banner-cafe.jpg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .check-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--ambar);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 0 20px rgba(243, 156, 18, 0.4);
+        }
+
+        .conteudo { padding: 40px; }
+        
+        h1 { font-family: 'Playfair Display', serif; color: var(--cafe); font-size: 32px; margin-bottom: 15px; }
+        p { color: #666; line-height: 1.6; margin-bottom: 25px; }
+        
+        .detalhes-pedido {
+            background: #fdfaf5;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            border: 1px dashed var(--ambar);
+        }
+        .detalhes-pedido span { display: block; font-size: 13px; font-weight: 700; color: var(--cafe); text-transform: uppercase; margin-bottom: 5px; }
+        .detalhes-pedido strong { font-size: 18px; color: var(--ambar); }
+
+        .proximos-passos { text-align: left; margin-bottom: 30px; }
+        .passo { display: flex; gap: 15px; margin-bottom: 15px; align-items: flex-start; }
+        .passo-num { background: var(--cafe); color: white; width: 24px; height: 24px; border-radius: 50%; font-size: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+        .passo-txt { font-size: 14px; color: #555; }
+
+        .btn-voltar {
+            display: inline-block;
+            background: var(--cafe);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-voltar:hover { background: var(--ambar); transform: translateY(-2px); }
+
+        .zap-suporte { display: block; margin-top: 20px; color: #25d366; font-size: 13px; font-weight: 700; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="card-sucesso">
+        <div class="banner-sucesso">
+            <div class="check-icon">✓</div>
+        </div>
+
+        <div class="conteudo">
+            <h1>Uai, que alegria!</h1>
+            <p>Seu pedido foi confirmado e nossa cozinha já começou a cheirar a queijo curado. Estamos preparando tudo com aquele capricho mineiro.</p>
+
+            <div class="detalhes-pedido">
+                <span>Número do seu Pedido</span>
+                <strong>#12598-MINEIRO</strong>
+            </div>
+
+            <div class="proximos-passos">
+                <div class="passo">
+                    <div class="passo-num">1</div>
+                    <div class="passo-txt"><strong>Separando o Ouro:</strong> Selecionamos os melhores pães de queijo da fornada.</div>
+                </div>
+                <div class="passo">
+                    <div class="passo-num">2</div>
+                    <div class="passo-txt"><strong>Embalagem Térmica:</strong> Protegemos o sabor para que chegue perfeito na sua mesa.</div>
+                </div>
+                <div class="passo">
+                    <div class="passo-num">3</div>
+                    <div class="passo-txt"><strong>A Caminho:</strong> Você receberá o código de rastreio por e-mail em breve.</div>
+                </div>
+            </div>
+
+            <a href="https://paodequeijoamor.vercel.app/" class="btn-voltar">Voltar para a Loja</a>
+            
+            <a href="https://wa.me/55NUMERO" class="zap-suporte">
+                Ficou com alguma dúvida? Chama no Zap!
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
