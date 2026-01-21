@@ -36,6 +36,12 @@
         .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--primary); text-decoration: none; letter-spacing: -1px; }
         .logo span { color: var(--accent); }
 
+        .acoes-carrinho {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .carrinho-topo {
             display: flex;
             align-items: center;
@@ -53,6 +59,22 @@
         }
         .carrinho-topo:hover { background: var(--accent); color: white; }
         .count { background: var(--primary); color: white; padding: 2px 7px; border-radius: 50%; font-size: 11px; }
+
+        /* Estilo do Botão Limpar */
+        .btn-limpar {
+            background: transparent;
+            color: #999;
+            border: 1px solid #eee;
+            padding: 10px 15px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-limpar:hover { background: #fee; color: #e74c3c; border-color: #fcc; }
 
         .banner-sensorial {
             width: 100%;
@@ -72,7 +94,6 @@
         .vitrine-header h3 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--primary); }
         .vitrine-header hr { width: 50px; margin: 15px auto; border: 1px solid var(--accent); }
 
-        /* Grade ajustada para 3 colunas fixas no desktop */
         .grade-produtos {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -122,6 +143,7 @@
 
         @media (max-width: 900px) {
             .grade-produtos { grid-template-columns: repeat(2, 1fr); }
+            header { padding: 20px; flex-direction: column; gap: 15px; }
         }
         @media (max-width: 600px) {
             .grade-produtos { grid-template-columns: 1fr; }
@@ -133,9 +155,13 @@
     <div class="container-loja">
         <header>
             <a href="index.html" class="logo">MINEIR<span>ÍSSIMO</span></a>
-            <button class="carrinho-topo" id="btn-carrinho" onclick="irParaCheckout()">
-                🛒 CARRINHO <span class="count" id="contador-carrinho">0</span>
-            </button>
+            
+            <div class="acoes-carrinho">
+                <button class="btn-limpar" onclick="limparCarrinho()">🗑️ Esvaziar</button>
+                <button class="carrinho-topo" onclick="irParaCheckout()">
+                    🛒 CARRINHO <span class="count" id="contador-carrinho">0</span>
+                </button>
+            </div>
         </header>
 
         <div class="banner-sensorial">
@@ -221,6 +247,16 @@
             document.getElementById("contador-carrinho").innerText = totalItens;
         }
 
+        function limparCarrinho() {
+            if (carrinho.length === 0) return;
+            
+            if (confirm("Deseja mesmo esvaziar sua sacola de delícias?")) {
+                carrinho = [];
+                localStorage.removeItem("carrinho");
+                atualizarContador();
+            }
+        }
+
         const botoes = document.querySelectorAll('.btn-comprar');
         botoes.forEach(botao => {
             botao.addEventListener('click', () => {
@@ -238,22 +274,21 @@
                 localStorage.setItem("carrinho", JSON.stringify(carrinho));
                 atualizarContador();
 
-                // Efeito visual verde
+                // Feedback visual verde
                 const textoOriginal = botao.innerText;
-                const corOriginal = botao.style.background;
                 botao.innerText = "✓ Adicionado";
                 botao.style.background = "#27ae60";
                 
                 setTimeout(() => {
                     botao.innerText = textoOriginal;
-                    botao.style.background = corOriginal;
+                    botao.style.background = "#F39C12";
                 }, 800);
             });
         });
 
         function irParaCheckout() {
             if (carrinho.length === 0) {
-                alert("Sua sacola está vazia! Escolha uma delícia mineira primeiro.");
+                alert("Sua sacola está vazia! Escolha uma delícia primeiro.");
                 return;
             }
             window.location.href = "checkout.html";
