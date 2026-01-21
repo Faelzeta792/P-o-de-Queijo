@@ -52,11 +52,9 @@
         .carrinho-topo:hover { background: var(--accent); color: white; }
         .count { background: var(--primary); color: white; padding: 2px 7px; border-radius: 50%; font-size: 11px; }
 
-        /* BANNER OTIMIZADO */
         .banner-sensorial {
             width: 100%;
             height: 320px;
-            /* Troque 'banner-cafe.jpg' pelo nome da sua foto de café com fumaça */
             background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
                         url('img/banner.png') center 30% / cover no-repeat;
             display: flex;
@@ -118,6 +116,7 @@
             transition: 0.3s;
         }
         .btn-comprar:hover { background: #E67E22; transform: scale(1.02); }
+        .btn-comprar:disabled { background: #ccc; cursor: not-allowed; }
 
         .mini-prova { background: #fafafa; padding: 25px; display: flex; justify-content: center; gap: 40px; border-top: 1px solid #f2f2f2; }
         .item-prova { display: flex; align-items: center; gap: 10px; font-size: 11px; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
@@ -141,7 +140,7 @@
         <header>
             <a href="#" class="logo">MINEIR<span>ÍSSIMO</span></a>
             <a href="#" class="carrinho-topo">
-                🛒 CARRINHO <span class="count">0</span>
+                🛒 CARRINHO <span class="count" id="carrinho-count">0</span>
             </a>
         </header>
 
@@ -158,7 +157,7 @@
                 <hr>
             </div>
 
-            <div class="grade-produtos">
+            <div class="grade-produtos" id="lista-produtos">
                 
                 <div class="card-produto">
                     <div class="img-produto" style="background-image: url('img/tradicional.png');"></div>
@@ -166,7 +165,7 @@
                         <h4>Tradicional Mineiro</h4>
                         <p>A receita clássica com 40% de queijo curado real.</p>
                         <span class="preco">R$ 44,90</span>
-                        <button class="btn-comprar">Adicionar ao Carrinho</button>
+                        <button class="btn-comprar" data-nome="Tradicional Mineiro" data-preco="44.90">Comprar Agora</button>
                     </div>
                 </div>
 
@@ -177,7 +176,7 @@
                         <h4>Carne Seca Desfiada</h4>
                         <p>Recheio suculento de carne seca com tempero da roça.</p>
                         <span class="preco">R$ 59,90</span>
-                        <button class="btn-comprar">Adicionar ao Carrinho</button>
+                        <button class="btn-comprar" data-nome="Carne Seca Desfiada" data-preco="59.90">Comprar Agora</button>
                     </div>
                 </div>
 
@@ -188,7 +187,7 @@
                         <h4>Frango com Requeijão</h4>
                         <p>Frango caipira desfiado e o cremoso requeijão mineiro.</p>
                         <span class="preco">R$ 54,90</span>
-                        <button class="btn-comprar">Adicionar ao Carrinho</button>
+                        <button class="btn-comprar" data-nome="Frango com Requeijão" data-preco="54.90">Comprar Agora</button>
                     </div>
                 </div>
 
@@ -199,7 +198,7 @@
                         <h4>Romeu e Julieta</h4>
                         <p>O doce da goiabada cascão derretendo dentro do queijo.</p>
                         <span class="preco">R$ 54,90</span>
-                        <button class="btn-comprar">Adicionar ao Carrinho</button>
+                        <button class="btn-comprar" data-nome="Romeu e Julieta" data-preco="54.90">Comprar Agora</button>
                     </div>
                 </div>
 
@@ -217,10 +216,63 @@
         </footer>
     </div>
 
-    <a href="#" class="zap-flutuante">
+    <a href="https://wa.me/SEUNUMERO" class="zap-flutuante">
         💬 Dúvidas no WhatsApp?
     </a>
 
-</body>
+    <script>
+        // Seleciona todos os botões de compra
+        const botoes = document.querySelectorAll('.btn-comprar');
 
+        botoes.forEach(botao => {
+            botao.addEventListener('click', async () => {
+                // Pegamos os dados do produto que inserimos no HTML
+                const nome = botao.getAttribute('data-nome');
+                const preco = parseFloat(botao.getAttribute('data-preco'));
+
+                // Feedback visual para o cliente
+                botao.innerText = "Processando...";
+                botao.disabled = true;
+
+                try {
+                    // Chamada para a sua API na Vercel
+                    const response = await fetch('/api/finalizar-compra', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            items: [
+                                {
+                                    title: nome,
+                                    unit_price: preco,
+                                    quantity: 1,
+                                    currency_id: 'BRL'
+                                }
+                            ]
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    // Se a API retornar o link (init_point), redirecionamos o usuário
+                    if (data.init_point) {
+                        window.location.href = data.init_point;
+                    } else {
+                        alert("Houve um erro ao gerar o pagamento. Tente novamente.");
+                        botao.innerText = "Comprar Agora";
+                        botao.disabled = false;
+                    }
+
+                } catch (error) {
+                    console.error("Erro na integração:", error);
+                    alert("Erro de conexão. Verifique se a API está configurada na Vercel.");
+                    botao.innerText = "Comprar Agora";
+                    botao.disabled = false;
+                }
+            });
+        });
+    </script>
+
+</body>
 </html>
