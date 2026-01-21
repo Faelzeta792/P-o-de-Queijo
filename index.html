@@ -36,31 +36,13 @@
         .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--primary); text-decoration: none; letter-spacing: -1px; }
         .logo span { color: var(--accent); }
 
-        .acoes-carrinho {
+        /* Container para os botões de ação */
+        .header-actions {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
 
-        .carrinho-topo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 700;
-            font-size: 14px;
-            background: #fdf2e9;
-            padding: 10px 20px;
-            border-radius: 50px;
-            transition: 0.3s;
-            cursor: pointer;
-            border: none;
-        }
-        .carrinho-topo:hover { background: var(--accent); color: white; }
-        .count { background: var(--primary); color: white; padding: 2px 7px; border-radius: 50%; font-size: 11px; }
-
-        /* Estilo do Botão Limpar */
         .btn-limpar {
             background: transparent;
             color: #999;
@@ -76,6 +58,24 @@
         }
         .btn-limpar:hover { background: #fee; color: #e74c3c; border-color: #fcc; }
 
+        .carrinho-topo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 700;
+            font-size: 14px;
+            background: #fdf2e9;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .carrinho-topo:hover { background: var(--accent); color: white; }
+        .count { background: var(--primary); color: white; padding: 2px 7px; border-radius: 50%; font-size: 11px; }
+
         .banner-sensorial {
             width: 100%;
             height: 320px;
@@ -88,12 +88,14 @@
             text-align: center;
         }
         .banner-content h2 { font-family: 'Playfair Display', serif; font-size: 38px; font-style: italic; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .banner-content p { font-weight: 300; letter-spacing: 3px; text-transform: uppercase; font-size: 13px; margin-top: 10px; }
 
         .vitrine { padding: 50px; }
         .vitrine-header { text-align: center; margin-bottom: 40px; }
         .vitrine-header h3 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--primary); }
         .vitrine-header hr { width: 50px; margin: 15px auto; border: 1px solid var(--accent); }
 
+        /* Grid configurada para 3 colunas */
         .grade-produtos {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -106,8 +108,6 @@
             border-radius: 8px;
             overflow: hidden;
             transition: 0.3s ease;
-            display: flex;
-            flex-direction: column;
         }
         .card-produto:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); border-color: var(--accent); }
 
@@ -120,7 +120,7 @@
         }
         .tag-recheado { position: absolute; top: 10px; right: 10px; background: var(--primary); color: white; padding: 4px 10px; font-size: 10px; font-weight: 700; border-radius: 3px; }
 
-        .info-produto { padding: 20px; text-align: center; flex-grow: 1; }
+        .info-produto { padding: 20px; text-align: center; }
         .info-produto h4 { font-family: 'Playfair Display', serif; font-size: 19px; margin-bottom: 8px; color: var(--primary); }
         .info-produto p { font-size: 12px; color: #777; margin-bottom: 15px; height: 36px; overflow: hidden; line-height: 1.4; }
         
@@ -141,9 +141,15 @@
             transition: 0.3s;
         }
 
+        .mini-prova { background: #fafafa; padding: 25px; display: flex; justify-content: center; gap: 40px; border-top: 1px solid #f2f2f2; }
+        .item-prova { display: flex; align-items: center; gap: 10px; font-size: 11px; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        footer { background: #fdfdfd; padding: 30px 50px; text-align: center; border-top: 1px solid #f2f2f2; }
+        .zap-flutuante { position: fixed; bottom: 30px; right: 30px; background: #25d366; color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 14px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; z-index: 1000; transition: 0.3s; }
+        .zap-flutuante:hover { transform: scale(1.1); background: #128C7E; }
+
         @media (max-width: 900px) {
             .grade-produtos { grid-template-columns: repeat(2, 1fr); }
-            header { padding: 20px; flex-direction: column; gap: 15px; }
         }
         @media (max-width: 600px) {
             .grade-produtos { grid-template-columns: 1fr; }
@@ -153,11 +159,11 @@
 <body>
 
     <div class="container-loja">
+        
         <header>
             <a href="index.html" class="logo">MINEIR<span>ÍSSIMO</span></a>
-            
-            <div class="acoes-carrinho">
-                <button class="btn-limpar" onclick="limparCarrinho()">🗑️ Esvaziar</button>
+            <div class="header-actions">
+                <button class="btn-limpar" onclick="limparCarrinho()">🗑️ Limpar</button>
                 <button class="carrinho-topo" onclick="irParaCheckout()">
                     🛒 CARRINHO <span class="count" id="contador-carrinho">0</span>
                 </button>
@@ -167,6 +173,7 @@
         <div class="banner-sensorial">
             <div class="banner-content">
                 <h2>O aroma do café, o calor do queijo.</h2>
+                <p>Artesanal. Quentinho. Inesquecível.</p>
             </div>
         </div>
 
@@ -177,6 +184,7 @@
             </div>
 
             <div class="grade-produtos">
+                
                 <div class="card-produto">
                     <div class="img-produto" style="background-image: url('img/tradicional.png');"></div>
                     <div class="info-produto">
@@ -224,22 +232,32 @@
                     <div class="img-produto" style="background-image: url('img/geleia.png');"></div>
                     <div class="info-produto">
                         <h4>Geleia de Morango</h4>
-                        <p>Acompanhamento perfeito para o seu pão de queijo.</p>
+                        <p>Acompanhamento perfeito para o pão de queijo.</p>
                         <span class="preco">R$ 5,00</span>
                         <button class="btn-comprar" data-nome="Geleia de Morango" data-preco="5.00">Adicionar</button>
                     </div>
                 </div>
+
             </div>
         </main>
 
+        <div class="mini-prova">
+            <div class="item-prova">✅ Sabor de Minas Real</div>
+            <div class="item-prova">❄️ Entrega Térmica</div>
+            <div class="item-prova">🧀 Ingredientes Selecionados</div>
+        </div>
+
         <footer>
-            <p style="font-size: 11px; color: #aaa; letter-spacing: 1px; text-align: center; padding: 20px;">
-                MINEIRÍSSIMO BOUTIQUE © 2026. FEITO COM AFETO.
-            </p>
+            <p style="font-size: 11px; color: #aaa; letter-spacing: 1px;">MINEIRÍSSIMO BOUTIQUE © 2026. FEITO COM AFETO.</p>
         </footer>
     </div>
 
+    <a href="#" class="zap-flutuante">
+        💬 Dúvidas no WhatsApp?
+    </a>
+
     <script>
+        // Carrega o carrinho do navegador ou inicia vazio
         let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
         function atualizarContador() {
@@ -249,8 +267,7 @@
 
         function limparCarrinho() {
             if (carrinho.length === 0) return;
-            
-            if (confirm("Deseja mesmo esvaziar sua sacola de delícias?")) {
+            if (confirm("Deseja esvaziar sua sacola?")) {
                 carrinho = [];
                 localStorage.removeItem("carrinho");
                 atualizarContador();
@@ -278,7 +295,6 @@
                 const textoOriginal = botao.innerText;
                 botao.innerText = "✓ Adicionado";
                 botao.style.background = "#27ae60";
-                
                 setTimeout(() => {
                     botao.innerText = textoOriginal;
                     botao.style.background = "#F39C12";
@@ -288,12 +304,13 @@
 
         function irParaCheckout() {
             if (carrinho.length === 0) {
-                alert("Sua sacola está vazia! Escolha uma delícia primeiro.");
+                alert("Escolha uma delícia primeiro!");
                 return;
             }
             window.location.href = "checkout.html";
         }
 
+        // Inicia o contador ao abrir a página
         atualizarContador();
     </script>
 </body>
