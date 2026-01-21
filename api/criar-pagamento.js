@@ -1,8 +1,8 @@
+import { MercadoPagoConfig, Preference } from 'mercadopago';
 
-import mercadopago from "mercadopago";
-
-mercadopago.configure({
-  access_token: process.env.MERCADO_PAGO_ACCESS_TOKEN,
+// 1. Configuramos o acesso com a variável que você criou na Vercel
+const client = new MercadoPagoConfig({ 
+  accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN 
 });
 
 export default async function handler(req, res) {
@@ -11,23 +11,27 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { items } = req.body;
+    const preference = new Preference(client);
 
-    const preference = {
-      items: items,
-      back_urls: {
-        success: "https://paodequeijoamor.vercel.app/sucesso.html",
-        failure: "https://paodequeijoamor.vercel.app/",
-      },
-      auto_return: "approved",
-    };
+    // 2. Criamos a preferência com os dados que virão do seu formulário
+    const response = await preference.create({
+      body: {
+        items: req.body.items, // Aqui pegamos os itens (Pão de queijo, etc)
+        back_urls: {
+          success: "https://paodequeijoamor.vercel.app/sucesso.html",
+          failure: "https://paodequeijoamor.vercel.app/",
+          pending: "https://paodequeijoamor.vercel.app/",
+        },
+        auto_return: "approved",
+      }
+    });
 
-    const response = await mercadopago.preferences.create(preference);
-
+    // 3. Devolvemos o link de pagamento (init_point) para o seu site
     return res.status(200).json({
-      init_point: response.body.init_point,
+      init_point: response.init_point,
     });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    console.error(error);
+    return res.status(500).json({ error: "Erro ao criar preferência de pagamento" });
   }
 }
