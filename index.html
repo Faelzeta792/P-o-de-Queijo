@@ -221,58 +221,26 @@
     </a>
 
     <script>
-        // Seleciona todos os botões de compra
-        const botoes = document.querySelectorAll('.btn-comprar');
+    const botoes = document.querySelectorAll('.btn-comprar');
 
-        botoes.forEach(botao => {
-            botao.addEventListener('click', async () => {
-                // Pegamos os dados do produto que inserimos no HTML
-                const nome = botao.getAttribute('data-nome');
-                const preco = parseFloat(botao.getAttribute('data-preco'));
+    botoes.forEach(botao => {
+        botao.addEventListener('click', () => {
+            const nome = botao.getAttribute('data-nome');
+            const preco = parseFloat(botao.getAttribute('data-preco'));
 
-                // Feedback visual para o cliente
-                botao.innerText = "Processando...";
-                botao.disabled = true;
+            // Criamos o objeto do produto
+            const produto = {
+                title: nome,
+                price: preco,
+                quantity: 1
+            };
 
-                try {
-                    // Chamada para a sua API na Vercel
-                    const response = await fetch('/api/finalizar-compra', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            items: [
-                                {
-                                    title: nome,
-                                    unit_price: preco,
-                                    quantity: 1,
-                                    currency_id: 'BRL'
-                                }
-                            ]
-                        })
-                    });
+            // Salvamos no "carrinho" do navegador (localStorage)
+            // Aqui estamos simplificando: cada clique leva um produto direto ao checkout
+            localStorage.setItem("carrinho", JSON.stringify([produto]));
 
-                    const data = await response.json();
-
-                    // Se a API retornar o link (init_point), redirecionamos o usuário
-                    if (data.init_point) {
-                        window.location.href = data.init_point;
-                    } else {
-                        alert("Houve um erro ao gerar o pagamento. Tente novamente.");
-                        botao.innerText = "Comprar Agora";
-                        botao.disabled = false;
-                    }
-
-                } catch (error) {
-                    console.error("Erro na integração:", error);
-                    alert("Erro de conexão. Verifique se a API está configurada na Vercel.");
-                    botao.innerText = "Comprar Agora";
-                    botao.disabled = false;
-                }
-            });
+            // Redireciona para a página de checkout
+            window.location.href = "checkout.html"; 
         });
-    </script>
-
-</body>
-</html>
+    });
+</script>
