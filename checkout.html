@@ -1,235 +1,158 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meu Carrinho | Mineiríssimo Boutique</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<style>
-:root{
---cafe:#5D2E0C;
---ambar:#F39C12;
---bg:#EAE7E1;
---white:#fff;
---success:#27ae60;
-}
-
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Montserrat',sans-serif;background:var(--bg);padding:30px 0;color:#333}
-
-.container{
-max-width:1100px;
-margin:auto;
-background:var(--white);
-box-shadow:0 10px 40px rgba(0,0,0,.1);
-border-radius:4px;
-display:grid;
-grid-template-columns:1fr 380px;
-overflow:hidden;
-}
-
-header{
-grid-column:1/span 2;
-padding:25px 50px;
-border-bottom:1px solid #eee;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.logo{
-font-family:'Playfair Display',serif;
-font-size:24px;
-color:var(--cafe);
-text-decoration:none;
-font-weight:700;
-}
-.logo span{color:var(--ambar)}
-
-main{padding:40px 50px}
-h2{
-font-family:'Playfair Display',serif;
-font-size:28px;
-color:var(--cafe);
-margin-bottom:30px;
-}
-
-.item{
-display:flex;
-justify-content:space-between;
-padding:15px 0;
-border-bottom:1px solid #eee;
-}
-.item h4{font-family:'Playfair Display',serif;color:var(--cafe)}
-.item span{font-weight:700}
-
-aside{
-background:#fafafa;
-padding:40px;
-border-left:1px solid #eee;
-}
-
-.linha{
-display:flex;
-justify-content:space-between;
-margin-bottom:15px;
-font-size:14px;
-}
-
-.total{
-margin-top:25px;
-padding-top:20px;
-border-top:2px solid #eee;
-display:flex;
-justify-content:space-between;
-font-size:24px;
-font-family:'Playfair Display',serif;
-font-weight:700;
-color:var(--cafe);
-}
-
-button{
-width:100%;
-margin-top:30px;
-background:var(--ambar);
-border:none;
-padding:20px;
-font-size:15px;
-font-weight:700;
-letter-spacing:1px;
-border-radius:4px;
-cursor:pointer;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-gap:10px;
-transition:.3s;
-}
-button:hover{background:#E67E22;transform:translateY(-2px)}
-
-.spinner{
-display:none;
-width:18px;
-height:18px;
-border:3px solid rgba(255,255,255,.3);
-border-top-color:white;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-@media(max-width:900px){
-.container{grid-template-columns:1fr}
-aside{border-left:none;border-top:1px solid #eee}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Carrinho | Mineiríssimo Boutique</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{ --cafe:#5D2E0C; --ambar:#F39C12; --bg:#EAE7E1; --white:#fff; --success:#27ae60; }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Montserrat',sans-serif;background:var(--bg);padding:30px 0;color:#333}
+        .container{ max-width:1100px; margin:auto; background:var(--white); box-shadow:0 10px 40px rgba(0,0,0,.1); border-radius:4px; display:grid; grid-template-columns:1fr 380px; overflow:hidden; }
+        header{ grid-column:1/span 2; padding:25px 50px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center; }
+        .logo{ font-family:'Playfair Display',serif; font-size:24px; color:var(--cafe); text-decoration:none; font-weight:700; }
+        .logo span{color:var(--ambar)}
+        main{padding:40px 50px}
+        h2{ font-family:'Playfair Display',serif; font-size:28px; color:var(--cafe); margin-bottom:30px; }
+        .item{ display:flex; justify-content:space-between; padding:15px 0; border-bottom:1px solid #eee; }
+        .item h4{font-family:'Playfair Display',serif;color:var(--cafe)}
+        .item span{font-weight:700}
+        aside{ background:#fafafa; padding:40px; border-left:1px solid #eee; }
+        .linha{ display:flex; justify-content:space-between; margin-bottom:15px; font-size:14px; }
+        .total{ margin-top:25px; padding-top:20px; border-top:2px solid #eee; display:flex; justify-content:space-between; font-size:24px; font-family:'Playfair Display',serif; font-weight:700; color:var(--cafe); }
+        button{ width:100%; margin-top:30px; background:var(--ambar); border:none; padding:20px; font-size:15px; font-weight:700; letter-spacing:1px; border-radius:4px; cursor:pointer; color:white; display:flex; justify-content:center; align-items:center; gap:10px; transition:.3s; }
+        button:hover{background:#E67E22;transform:translateY(-2px)}
+        button:disabled{background:#ccc; cursor:not-allowed;}
+        .spinner{ display:none; width:18px; height:18px; border:3px solid rgba(255,255,255,.3); border-top-color:white; border-radius:50%; animation:spin 1s linear infinite; }
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @media(max-width:900px){ .container{grid-template-columns:1fr} aside{border-left:none;border-top:1px solid #eee} }
+    </style>
 </head>
-
 <body>
 
 <div class="container">
+    <header>
+        <a href="index.html" class="logo">MINEIR<span>ÍSSIMO</span></a>
+        <div style="font-size:10px;color:#aaa;font-weight:700;letter-spacing:1px">
+            🔒 PAGAMENTO SEGURO VIA MERCADO PAGO
+        </div>
+    </header>
 
-<header>
-<a href="index.html" class="logo">MINEIR<span>ÍSSIMO</span></a>
-<div style="font-size:10px;color:#aaa;font-weight:700;letter-spacing:1px">
-🔒 Pagamento seguro via Mercado Pago
-</div>
-</header>
+    <main>
+        <h2>Seu Carrinho</h2>
+        <div id="lista">
+            </div>
 
-<main>
-<h2>Seu Carrinho</h2>
-<div id="lista"></div>
+        <a href="index.html" style="display:inline-block;margin-top:30px;color:var(--cafe);font-weight:700;font-size:13px;text-decoration:none">
+            ← Adicionar mais pães de queijo
+        </a>
+    </main>
 
-<a href="index.html" style="display:inline-block;margin-top:30px;color:var(--cafe);font-weight:700;font-size:13px;text-decoration:none">
-← Voltar para a vitrine
-</a>
-</main>
+    <aside>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--cafe);margin-bottom:25px">Resumo do Pedido</h3>
 
-<aside>
-<h3 style="font-family:'Playfair Display',serif;color:var(--cafe);margin-bottom:25px">
-Resumo do Pedido
-</h3>
+        <div class="linha">
+            <span>Subtotal</span>
+            <span id="subtotal">R$ 0,00</span>
+        </div>
 
-<div class="linha">
-<span>Subtotal</span>
-<span id="subtotal">R$ 0,00</span>
-</div>
+        <div class="linha">
+            <span>Frete</span>
+            <span style="color:var(--success);font-weight:700">GRÁTIS</span>
+        </div>
 
-<div class="linha">
-<span>Frete</span>
-<span style="color:var(--success);font-weight:700">A calcular</span>
-</div>
+        <div class="total">
+            <span>Total</span>
+            <span id="total">R$ 0,00</span>
+        </div>
 
-<div class="total">
-<span>Total</span>
-<span id="total">R$ 0,00</span>
-</div>
+        <button onclick="pagar()" id="btn-pagar">
+            <div class="spinner" id="spinner"></div>
+            <span id="texto-btn">Finalizar e Pagar</span>
+        </button>
 
-<button onclick="pagar()">
-<div class="spinner" id="spinner"></div>
-<span id="btn">Pagar com Mercado Pago</span>
-</button>
-
-<p style="text-align:center;font-size:11px;color:#aaa;margin-top:20px">
-Você será redirecionado para o ambiente seguro do Mercado Pago
-</p>
-</aside>
-
+        <p style="text-align:center;font-size:11px;color:#aaa;margin-top:20px">
+            Ambiente seguro criptografado
+        </p>
+    </aside>
 </div>
 
 <script>
-const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-const lista = document.getElementById("lista");
-const subtotalEl = document.getElementById("subtotal");
-const totalEl = document.getElementById("total");
+    // 1. Carregar produtos do localStorage
+    const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+    const lista = document.getElementById("lista");
+    const subtotalEl = document.getElementById("subtotal");
+    const totalEl = document.getElementById("total");
 
-let subtotal = 0;
+    if (carrinho.length === 0) {
+        lista.innerHTML = "<p>Seu carrinho está vazio.</p>";
+    }
 
-carrinho.forEach(prod => {
-const linha = document.createElement("div");
-linha.className = "item";
-linha.innerHTML = `
-<h4>${prod.title} (x${prod.quantity})</h4>
-<span>R$ ${(prod.price * prod.quantity).toFixed(2)}</span>
-`;
-lista.appendChild(linha);
-subtotal += prod.price * prod.quantity;
-});
+    let valorTotal = 0;
 
-subtotalEl.innerText = `R$ ${subtotal.toFixed(2)}`;
-totalEl.innerText = `R$ ${subtotal.toFixed(2)}`;
+    carrinho.forEach(prod => {
+        const linha = document.createElement("div");
+        linha.className = "item";
+        linha.innerHTML = `
+            <div>
+                <h4>${prod.title}</h4>
+                <small style="color:#888">Quantidade: ${prod.quantity}</small>
+            </div>
+            <span>R$ ${(prod.price * prod.quantity).toFixed(2).replace('.', ',')}</span>
+        `;
+        lista.appendChild(linha);
+        valorTotal += prod.price * prod.quantity;
+    });
 
-async function pagar(){
-const btn=document.getElementById("btn");
-const spinner=document.getElementById("spinner");
-btn.innerText="Processando...";
-spinner.style.display="block";
+    subtotalEl.innerText = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
+    totalEl.innerText = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
 
-const payload={
-items:carrinho.map(p=>({
-title:p.title,
-quantity:p.quantity,
-unit_price:p.price
-}))
-};
+    // 2. Função de Pagamento
+    async function pagar(){
+        const btn = document.getElementById("btn-pagar");
+        const textoBtn = document.getElementById("texto-btn");
+        const spinner = document.getElementById("spinner");
 
-try{
-const res=await fetch("/api/criar-pagamento",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify(payload)
-});
-const data=await res.json();
-window.location.href=data.init_point;
-}catch(e){
-alert("Erro ao iniciar pagamento");
-btn.innerText="Pagar com Mercado Pago";
-spinner.style.display="none";
-}
-}
+        if(carrinho.length === 0) return alert("Adicione um produto antes!");
+
+        // Feedback visual
+        btn.disabled = true;
+        textoBtn.innerText = "Conectando ao Mercado Pago...";
+        spinner.style.display = "block";
+
+        const payload = {
+            items: carrinho.map(p => ({
+                title: p.title,
+                unit_price: p.price,
+                quantity: p.quantity
+            }))
+        };
+
+        try {
+            // ATENÇÃO: Verifique se o nome do arquivo na pasta /api é 'finalizar-compra.js'
+            const res = await fetch("/api/finalizar-compra", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+
+            if (data.init_point) {
+                window.location.href = data.init_point;
+            } else {
+                throw new Error("Link de pagamento não gerado");
+            }
+
+        } catch (e) {
+            console.error(e);
+            alert("Erro ao iniciar pagamento. Verifique se as credenciais na Vercel estão corretas.");
+            btn.disabled = false;
+            textoBtn.innerText = "Finalizar e Pagar";
+            spinner.style.display = "none";
+        }
+    }
 </script>
 
 </body>
