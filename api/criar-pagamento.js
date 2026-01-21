@@ -16,8 +16,8 @@ export default async function handler(req, res) {
     const preference = {
       items: items,
       back_urls: {
-        success: "https://paodequeijoamom.vercel.app/sucesso.html",
-        failure: "https://paodequeijoamom.vercel.app/",
+        success: "https://paodequeijoamor.vercel.app/sucesso.html",
+        failure: "https://paodequeijoamor.vercel.app/",
       },
       auto_return: "approved",
     };
