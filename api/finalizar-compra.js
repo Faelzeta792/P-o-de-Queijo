@@ -1,37 +1,28 @@
-import { MercadoPagoConfig, Preference } from 'mercadopago';
+import { MercadoPagoConfig, Payment } from 'mercadopago';
 
-// 1. Configuramos o acesso com a variável que você criou na Vercel
-const client = new MercadoPagoConfig({ 
-  accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN 
-});
+const client = new MercadoPagoConfig({ accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN });
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Método não permitido" });
-  }
+    if (req.method !== "POST") return res.status(405).json({ error: "Erro" });
 
-  try {
-    const preference = new Preference(client);
+    try {
+        const payment = new Payment(client);
+        const body = {
+            transaction_amount: req.body.total,
+            description: 'Pedido Mineiríssimo',
+            payment_method_id: 'pix',
+            payer: { email: req.body.email }
+        };
 
-    // 2. Criamos a preferência com os dados que virão do seu formulário
-    const response = await preference.create({
-      body: {
-        items: req.body.items, // Aqui pegamos os itens (Pão de queijo, etc)
-        back_urls: {
-          success: "https://paodequeijoamor.vercel.app/sucesso.html",
-          failure: "https://paodequeijoamor.vercel.app/",
-          pending: "https://paodequeijoamor.vercel.app/",
-        },
-        auto_return: "approved",
-      }
-    });
+        const response = await payment.create({ body });
 
-    // 3. Devolvemos o link de pagamento (init_point) para o seu site
-    return res.status(200).json({
-      init_point: response.init_point,
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Erro ao criar preferência de pagamento" });
-  }
+        // Enviamos o QR Code e o ID do pagamento para o seu site vigiar
+        return res.status(200).json({
+            id: response.id,
+            qr_code_base64: response.point_of_interaction.transaction_data.qr_code_base64,
+            qr_code: response.point_of_interaction.transaction_data.qr_code
+        });
+    } catch (error) {
+        return res.status(500).json(error);
+    }
 }
