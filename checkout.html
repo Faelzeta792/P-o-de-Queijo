@@ -78,82 +78,41 @@
     </aside>
 </div>
 
-<script>
-    // 1. Carregar produtos do localStorage
-    const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-    const lista = document.getElementById("lista");
-    const subtotalEl = document.getElementById("subtotal");
-    const totalEl = document.getElementById("total");
+<script>async function pagar() {
+    // ... seu código de loading anterior ...
 
-    if (carrinho.length === 0) {
-        lista.innerHTML = "<p>Seu carrinho está vazio.</p>";
-    }
-
-    let valorTotal = 0;
-
-    carrinho.forEach(prod => {
-        const linha = document.createElement("div");
-        linha.className = "item";
-        linha.innerHTML = `
-            <div>
-                <h4>${prod.title}</h4>
-                <small style="color:#888">Quantidade: ${prod.quantity}</small>
-            </div>
-            <span>R$ ${(prod.price * prod.quantity).toFixed(2).replace('.', ',')}</span>
-        `;
-        lista.appendChild(linha);
-        valorTotal += prod.price * prod.quantity;
+    const res = await fetch("/api/finalizar-compra", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ total: valorTotal, email: "cliente@email.com" })
     });
 
-    subtotalEl.innerText = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
-    totalEl.innerText = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
+    const data = await res.json();
 
-    // 2. Função de Pagamento
-    async function pagar(){
-        const btn = document.getElementById("btn-pagar");
-        const textoBtn = document.getElementById("texto-btn");
-        const spinner = document.getElementById("spinner");
+    if (data.qr_code_base64) {
+        // 1. MOSTRA O QR CODE NA TELA (Visual)
+        document.getElementById("lista").innerHTML = `
+            <div style="text-align:center; padding:20px;">
+                <h3 style="font-family:'Playfair Display'">Escaneie para Pagar</h3>
+                <img src="data:image/png;base64,${data.qr_code_base64}" width="200">
+                <p style="margin-top:10px; font-size:12px;">Aguardando pagamento...</p>
+            </div>
+        `;
 
-        if(carrinho.length === 0) return alert("Adicione um produto antes!");
+        // 2. FICA VIGIANDO O STATUS (A mágica)
+        const checkStatus = setInterval(async () => {
+            const statusRes = await fetch(`/api/verificar-pagamento?id=${data.id}`);
+            const statusData = await statusRes.json();
 
-        // Feedback visual
-        btn.disabled = true;
-        textoBtn.innerText = "Conectando ao Mercado Pago...";
-        spinner.style.display = "block";
-
-        const payload = {
-            items: carrinho.map(p => ({
-                title: p.title,
-                unit_price: p.price,
-                quantity: p.quantity
-            }))
-        };
-
-        try {
-            // ATENÇÃO: Verifique se o nome do arquivo na pasta /api é 'finalizar-compra.js'
-            const res = await fetch("/api/finalizar-compra", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
-
-            const data = await res.json();
-
-            if (data.init_point) {
-                window.location.href = data.init_point;
-            } else {
-                throw new Error("Link de pagamento não gerado");
+            if (statusData.status === 'approved') {
+                clearInterval(checkStatus); // Para de vigiar
+                window.location.href = "sucesso.html"; // MUDA A TELA NA HORA!
             }
-
-        } catch (e) {
-            console.error(e);
-            alert("Erro ao iniciar pagamento. Verifique se as credenciais na Vercel estão corretas.");
-            btn.disabled = false;
-            textoBtn.innerText = "Finalizar e Pagar";
-            spinner.style.display = "none";
-        }
+        }, 3000); // Tenta a cada 3 segundos
     }
+}
 </script>
 
 </body>
 </html>
+
