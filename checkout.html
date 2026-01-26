@@ -17,13 +17,23 @@
         h2{ font-family:'Playfair Display',serif; font-size:28px; color:var(--cafe); margin-bottom:30px; }
         .item{ display:flex; justify-content:space-between; padding:15px 0; border-bottom:1px solid #eee; }
         .item h4{font-family:'Playfair Display',serif;color:var(--cafe)}
-        .item span{font-weight:700}
+        
+        /* Estilos dos Campos de Entrega */
+        .secao-dados { background: #fdfdfd; padding: 20px; border: 1px solid #eee; border-radius: 4px; margin-bottom: 30px; }
+        .campo { margin-bottom: 15px; }
+        .campo label { display: block; font-size: 11px; font-weight: 700; color: var(--cafe); margin-bottom: 5px; }
+        .campo input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-family: 'Montserrat', sans-serif; }
+        
         aside{ background:#fafafa; padding:40px; border-left:1px solid #eee; }
         .linha{ display:flex; justify-content:space-between; margin-bottom:15px; font-size:14px; }
         .total{ margin-top:25px; padding-top:20px; border-top:2px solid #eee; display:flex; justify-content:space-between; font-size:24px; font-family:'Playfair Display',serif; font-weight:700; color:var(--cafe); }
-        button{ width:100%; margin-top:30px; background:var(--ambar); border:none; padding:20px; font-size:15px; font-weight:700; letter-spacing:1px; border-radius:4px; cursor:pointer; color:white; display:flex; justify-content:center; align-items:center; gap:10px; transition:.3s; }
-        button:hover{background:#E67E22;transform:translateY(-2px)}
-        button:disabled{background:#ccc; cursor:not-allowed;}
+        
+        button{ width:100%; margin-top:15px; border:none; padding:20px; font-size:15px; font-weight:700; border-radius:4px; cursor:pointer; color:white; display:flex; justify-content:center; align-items:center; gap:10px; transition:.3s; }
+        .btn-dados { background: var(--cafe); opacity: 0.9; }
+        .btn-mp { background: var(--ambar); }
+        button:hover{ transform:translateY(-2px); opacity: 1; }
+        button:disabled{ background:#ccc; cursor:not-allowed; }
+        
         .spinner{ display:none; width:18px; height:18px; border:3px solid rgba(255,255,255,.3); border-top-color:white; border-radius:50%; animation:spin 1s linear infinite; }
         @keyframes spin{to{transform:rotate(360deg)}}
         @media(max-width:900px){ .container{grid-template-columns:1fr} aside{border-left:none;border-top:1px solid #eee} }
@@ -34,52 +44,53 @@
 <div class="container">
     <header>
         <a href="index.html" class="logo">MINEIR<span>ÍSSIMO</span></a>
-        <div style="font-size:10px;color:#aaa;font-weight:700;letter-spacing:1px">
-            🔒 PAGAMENTO SEGURO VIA MERCADO PAGO
-        </div>
+        <div style="font-size:10px;color:#aaa;font-weight:700;letter-spacing:1px">🔒 CHECKOUT SEGURO</div>
     </header>
 
     <main>
-        <h2>Seu Carrinho</h2>
-        <div id="lista">
+        <h2>Dados de Entrega</h2>
+        <div class="secao-dados">
+            <div class="campo">
+                <label>NOME COMPLETO</label>
+                <input type="text" id="nome" placeholder="Como devemos chamar você?">
             </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="campo">
+                    <label>CPF</label>
+                    <input type="text" id="cpf" placeholder="000.000.000-00">
+                </div>
+                <div class="campo">
+                    <label>WHATSAPP</label>
+                    <input type="tel" id="whatsapp" placeholder="(00) 90000-0000">
+                </div>
+            </div>
+            <div class="campo">
+                <label>ENDEREÇO COMPLETO</label>
+                <input type="text" id="endereco" placeholder="Rua, número, bairro e cidade">
+            </div>
+            <button onclick="enviarParaPlanilha()" class="btn-dados" id="btn-envio">
+                <span id="texto-envio">Salvar Dados de Entrega</span>
+            </button>
+        </div>
 
-        <a href="index.html" style="display:inline-block;margin-top:30px;color:var(--cafe);font-weight:700;font-size:13px;text-decoration:none">
-            ← Adicionar mais pães de queijo
-        </a>
+        <h2>Resumo do Carrinho</h2>
+        <div id="lista"></div>
     </main>
 
     <aside>
-        <h3 style="font-family:'Playfair Display',serif;color:var(--cafe);margin-bottom:25px">Resumo do Pedido</h3>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--cafe);margin-bottom:25px">Pagamento</h3>
+        <div class="linha"><span>Subtotal</span><span id="subtotal">R$ 0,00</span></div>
+        <div class="linha"><span>Frete</span><span style="color:var(--success);font-weight:700">GRÁTIS</span></div>
+        <div class="total"><span>Total</span><span id="total">R$ 0,00</span></div>
 
-        <div class="linha">
-            <span>Subtotal</span>
-            <span id="subtotal">R$ 0,00</span>
-        </div>
-
-        <div class="linha">
-            <span>Frete</span>
-            <span style="color:var(--success);font-weight:700">GRÁTIS</span>
-        </div>
-
-        <div class="total">
-            <span>Total</span>
-            <span id="total">R$ 0,00</span>
-        </div>
-
-        <button onclick="pagar()" id="btn-pagar">
+        <button onclick="pagar()" id="btn-pagar" class="btn-mp" disabled title="Salve os dados de entrega primeiro">
             <div class="spinner" id="spinner"></div>
-            <span id="texto-btn">Finalizar e Pagar</span>
+            <span id="texto-btn">Pagar com Mercado Pago</span>
         </button>
-
-        <p style="text-align:center;font-size:11px;color:#aaa;margin-top:20px">
-            Ambiente seguro criptografado
-        </p>
     </aside>
 </div>
 
 <script>
-    // 1. Carregar produtos do localStorage
     const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
     const lista = document.getElementById("lista");
     const subtotalEl = document.getElementById("subtotal");
@@ -90,7 +101,6 @@
     }
 
     let valorTotal = 0;
-
     carrinho.forEach(prod => {
         const linha = document.createElement("div");
         linha.className = "item";
@@ -108,17 +118,56 @@
     subtotalEl.innerText = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
     totalEl.innerText = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
 
-    // 2. Função de Pagamento
+    // --- FUNÇÃO DE ENVIO PARA GOOGLE SHEETS ---
+    async function enviarParaPlanilha() {
+        const btn = document.getElementById("btn-envio");
+        const texto = document.getElementById("texto-envio");
+        
+        const dados = {
+            nome: document.getElementById("nome").value,
+            cpf: document.getElementById("cpf").value,
+            whatsapp: document.getElementById("whatsapp").value,
+            endereco: document.getElementById("endereco").value,
+            pedido: carrinho.map(p => `${p.quantity}x ${p.title}`).join(', '),
+            total: document.getElementById("total").innerText
+        };
+
+        if(!dados.nome || !dados.cpf || !dados.endereco) return alert("Por favor, preencha todos os dados de entrega!");
+
+        btn.disabled = true;
+        texto.innerText = "Salvando dados...";
+
+        // URL do seu Google Apps Script (App Web)
+        const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbwdSbxjUkjsLvpSQZKOmdQViuPpL59gKcOSeUIgxMEANlMscrNH4sMWDJVpX9vC1A0s/exec";
+
+        try {
+            await fetch(URL_WEB_APP, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dados)
+            });
+            
+            texto.innerText = "✓ Dados Salvos!";
+            btn.style.background = "#27ae60";
+            // Libera o botão de pagamento após salvar os dados
+            document.getElementById("btn-pagar").disabled = false;
+        } catch (e) {
+            console.error(e);
+            alert("Erro ao salvar dados. Tente novamente.");
+            btn.disabled = false;
+            texto.innerText = "Tentar novamente";
+        }
+    }
+
+    // --- FUNÇÃO MERCADO PAGO ---
     async function pagar(){
         const btn = document.getElementById("btn-pagar");
         const textoBtn = document.getElementById("texto-btn");
         const spinner = document.getElementById("spinner");
 
-        if(carrinho.length === 0) return alert("Adicione um produto antes!");
-
-        // Feedback visual
         btn.disabled = true;
-        textoBtn.innerText = "Conectando ao Mercado Pago...";
+        textoBtn.innerText = "Conectando...";
         spinner.style.display = "block";
 
         const payload = {
@@ -130,7 +179,6 @@
         };
 
         try {
-            // ATENÇÃO: Verifique se o nome do arquivo na pasta /api é 'finalizar-compra.js'
             const res = await fetch("/api/finalizar-compra", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -138,18 +186,15 @@
             });
 
             const data = await res.json();
-
             if (data.init_point) {
                 window.location.href = data.init_point;
             } else {
-                throw new Error("Link de pagamento não gerado");
+                throw new Error("Erro no link");
             }
-
         } catch (e) {
-            console.error(e);
-            alert("Erro ao iniciar pagamento. Verifique se as credenciais na Vercel estão corretas.");
+            alert("Erro ao iniciar pagamento. Verifique sua conexão.");
             btn.disabled = false;
-            textoBtn.innerText = "Finalizar e Pagar";
+            textoBtn.innerText = "Pagar com Mercado Pago";
             spinner.style.display = "none";
         }
     }
@@ -157,3 +202,5 @@
 
 </body>
 </html>
+</html>
+
