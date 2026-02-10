@@ -12,6 +12,8 @@
             --bg-page: #EAE7E1; 
             --bg-white: #FFFFFF;
             --text: #333;
+            --forno-dark: #1a0d04;
+            --forno-warm: #3d1f08;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -154,11 +156,118 @@
         @media (max-width: 600px) {
             .grade-produtos { grid-template-columns: 1fr; }
         }
-    </style>
+    
+        /* --- INTRO FORNO (inserido do teste, sem alterar lógica do site) --- */
+        #abertura-forno {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, var(--forno-warm) 0%, var(--forno-dark) 100%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 2.5s ease-in-out, visibility 2.5s;
+        }
+        .fumaca-container {
+            position: absolute;
+            width: 100%; height: 100%;
+            overflow: hidden;
+            filter: blur(60px);
+            opacity: 0.35;
+            pointer-events: none;
+        }
+        .fumaca {
+            position: absolute;
+            background: #fff;
+            width: 400px; height: 400px;
+            border-radius: 50%;
+            animation: flutuar 12s infinite alternate ease-in-out;
+        }
+        .fumaca:nth-child(1) { top: 60%; left: 10%; background: #9e7a5d; animation-duration: 15s; }
+        .fumaca:nth-child(2) { top: 30%; left: 40%; background: #d6c4b5; animation-delay: -3s; }
+        .fumaca:nth-child(3) { top: 60%; left: 70%; background: #7a4f30; animation-delay: -7s; }
+
+        @keyframes flutuar {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.2; }
+            100% { transform: translate(150px, -200px) scale(1.8); opacity: 0.7; }
+        }
+
+        .narrativa-container {
+            text-align: center;
+            max-width: 700px;
+            padding: 40px;
+            z-index: 10;
+            position: relative;
+        }
+
+        .texto-narrativo {
+            color: #e2d1b3;
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            line-height: 1.6;
+            opacity: 0;
+            display: none;
+            transition: opacity 2s ease;
+        }
+        .texto-narrativo strong { color: var(--accent); font-style: italic; }
+        .texto-narrativo p { margin-bottom: 25px; }
+
+        .btn-pular {
+            position: absolute;
+            bottom: 50px;
+            background: transparent;
+            border: 1px solid rgba(226, 209, 179, 0.2);
+            color: rgba(226, 209, 179, 0.5);
+            padding: 12px 24px;
+            cursor: pointer;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-radius: 50px;
+            transition: 0.3s;
+            z-index: 100;
+        }
+        .btn-pular:hover { border-color: var(--accent); color: var(--accent); }
+
+        #abertura-forno.esconder { opacity: 0; visibility: hidden; }
+
+        /* Mantém a página oficial intacta; apenas controla visibilidade durante a intro */
+        body.intro-active { overflow: hidden; }
+        body.intro-active .container-loja { opacity: 0; transform: translateY(20px); transition: opacity 2s ease, transform 2s ease; }
+        body.intro-done .container-loja { opacity: 1; transform: translateY(0); }
+
+</style>
 </head>
 <body>
 
-    <div class="container-loja">
+    
+
+    <div id="abertura-forno">
+        <div class="fumaca-container">
+            <div class="fumaca"></div>
+            <div class="fumaca"></div>
+            <div class="fumaca" style="animation-delay: -5s;"></div>
+        </div>
+
+        <div class="narrativa-container">
+            <div id="bloco-1" class="texto-narrativo">
+                <p>Aqui o pão de queijo não nasce com pressa.</p>
+                <p>Ele começa na massa bem feita, no queijo de verdade, e no <strong>tempo certo de forno.</strong></p>
+            </div>
+
+            <div id="bloco-2" class="texto-narrativo">
+                <p>Pão de queijo de verdade não se apressa.</p>
+                <p>Por isso ele chega congelado.</p>
+                <p>Não pra perder a graça — mas pra esperar o forno certo: <strong>o seu.</strong></p>
+            </div>
+        </div>
+
+        <button class="btn-pular" onclick="finalizarAbertura()">Esperar o forno... ou entrar agora</button>
+    </div>
+
+<div class="container-loja" id="main-content">
         
         <header>
             <a href="index.html" class="logo">MINEIR<span>ÍSSIMO</span></a>
@@ -257,7 +366,50 @@
     </a>
 
     <script>
-        // Carrega o carrinho do navegador ou inicia vazio
+        
+
+        /* --- LÓGICA DA ABERTURA "FORNO" (inserida do teste) --- */
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add("intro-active");
+
+            const bloco1 = document.getElementById('bloco-1');
+            const bloco2 = document.getElementById('bloco-2');
+
+            // Sequência de animação (mesma do teste)
+            setTimeout(() => {
+                bloco1.style.display = "block";
+                setTimeout(() => { bloco1.style.opacity = "1"; }, 100);
+            }, 800);
+
+            setTimeout(() => {
+                bloco1.style.opacity = "0";
+                setTimeout(() => {
+                    bloco1.style.display = "none";
+                    bloco2.style.display = "block";
+                    setTimeout(() => { bloco2.style.opacity = "1"; }, 100);
+                }, 1500);
+            }, 5000);
+
+            // Finalização automática
+            setTimeout(() => {
+                finalizarAbertura();
+            }, 10500);
+        });
+
+        function finalizarAbertura() {
+            const intro = document.getElementById('abertura-forno');
+            if (!intro) return;
+            intro.classList.add('esconder');
+
+            document.body.classList.remove("intro-active");
+            document.body.classList.add("intro-done");
+
+            // Remove o elemento do DOM após a transição para não pesar
+            setTimeout(() => { try { intro.remove(); } catch(e) {} }, 2500);
+        }
+
+
+// Carrega o carrinho do navegador ou inicia vazio
         let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
         function atualizarContador() {
