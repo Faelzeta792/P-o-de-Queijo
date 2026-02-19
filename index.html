@@ -1,464 +1,794 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mineiríssimo | Boutique do Pão de Queijo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #5D2E0C; 
-            --accent: #F39C12;  
-            --bg-page: #EAE7E1; 
-            --bg-white: #FFFFFF;
-            --text: #333;
-            --forno-dark: #1a0d04;
-            --forno-warm: #3d1f08;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mineiríssimo | Pão de Queijo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #5D2E0C; 
+      --accent: #F39C12; 
+      --bg-page: #EAE7E1; 
+      --bg-white: #FFFFFF;
+      --text: #333;
+      --forno-dark: #1a0d04;
+      --forno-warm: #3d1f08;
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-page); color: var(--text); padding: 30px 0; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-page); color: var(--text); padding: 30px 0; }
 
-        .container-loja {
-            max-width: 1100px;
-            margin: 0 auto;
-            background: var(--bg-white);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            border-radius: 4px;
-            overflow: hidden;
-        }
+    .container-loja {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: var(--bg-white);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
 
-        header {
-            padding: 25px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #f2f2f2;
-        }
-        .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--primary); text-decoration: none; letter-spacing: -1px; }
-        .logo span { color: var(--accent); }
+    header {
+      padding: 25px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f2f2f2;
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--primary); text-decoration: none; letter-spacing: -1px; }
+    .logo span { color: var(--accent); }
 
-        /* Container para os botões de ação */
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+    /* Container para os botões de ação */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-        .btn-limpar {
-            background: transparent;
-            color: #999;
-            border: 1px solid #eee;
-            padding: 10px 15px;
-            border-radius: 50px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn-limpar:hover { background: #fee; color: #e74c3c; border-color: #fcc; }
+    .btn-limpar {
+      background: transparent;
+      color: #999;
+      border: 1px solid #eee;
+      padding: 10px 15px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn-limpar:hover { background: #fee; color: #e74c3c; border-color: #fcc; }
 
-        .carrinho-topo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 700;
-            font-size: 14px;
-            background: #fdf2e9;
-            padding: 10px 20px;
-            border-radius: 50px;
-            transition: 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-        .carrinho-topo:hover { background: var(--accent); color: white; }
-        .count { background: var(--primary); color: white; padding: 2px 7px; border-radius: 50%; font-size: 11px; }
+    .carrinho-topo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 14px;
+      background: #fdf2e9;
+      padding: 10px 20px;
+      border-radius: 50px;
+      transition: 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+    .carrinho-topo:hover { background: var(--accent); color: white; }
+    .count { background: var(--primary); color: white; padding: 2px 7px; border-radius: 50%; font-size: 11px; }
 
-        .banner-sensorial {
-            width: 100%;
-            height: 320px;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
-                        url('img/banner.png') center 30% / cover no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-        }
-        .banner-content h2 { font-family: 'Playfair Display', serif; font-size: 38px; font-style: italic; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
-        .banner-content p { font-weight: 300; letter-spacing: 3px; text-transform: uppercase; font-size: 13px; margin-top: 10px; }
+    .banner-sensorial {
+      width: 100%;
+      height: 320px;
+      background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+            url('img/banner.png') center 30% / cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+    }
+    .banner-content h2 { font-family: 'Playfair Display', serif; font-size: 38px; font-style: italic; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+    .banner-content p { font-weight: 300; letter-spacing: 3px; text-transform: uppercase; font-size: 13px; margin-top: 10px; }
 
-        .vitrine { padding: 50px; }
-        .vitrine-header { text-align: center; margin-bottom: 40px; }
-        .vitrine-header h3 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--primary); }
-        .vitrine-header hr { width: 50px; margin: 15px auto; border: 1px solid var(--accent); }
+    .vitrine { padding: 50px; }
+    .vitrine-header { text-align: center; margin-bottom: 40px; }
+    .vitrine-header h3 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--primary); }
+    .vitrine-header hr { width: 50px; margin: 15px auto; border: 1px solid var(--accent); }
 
-        /* Grid configurada para 3 colunas */
-        .grade-produtos {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
+    /* Grid configurada para 3 colunas */
+    .grade-produtos {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
 
-        .card-produto {
-            background: white;
-            border: 1px solid #f0f0f0;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: 0.3s ease;
-        }
-        .card-produto:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); border-color: var(--accent); }
+    .card-produto {
+      background: white;
+      border: 1px solid #f0f0f0;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: 0.3s ease;
+    }
+    .card-produto:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); border-color: var(--accent); }
 
-        .img-produto {
-            height: 220px;
-            background-color: #f9f9f9;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-        .info-produto { padding: 20px; text-align: center; }
-        .info-produto h4 { font-family: 'Playfair Display', serif; font-size: 19px; margin-bottom: 8px; color: var(--primary); }
-        .info-produto p { font-size: 12px; color: #777; margin-bottom: 15px; height: 36px; overflow: hidden; line-height: 1.4; }
-        
-        .preco { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 15px; display: block; }
-        
-        .btn-comprar {
-            width: 100%;
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 14px;
-            font-weight: 700;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: 0.3s;
-        }
-
-        .mini-prova { background: #fafafa; padding: 25px; display: flex; justify-content: center; gap: 40px; border-top: 1px solid #f2f2f2; }
-        .item-prova { display: flex; align-items: center; gap: 10px; font-size: 11px; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-
-        footer { background: #fdfdfd; padding: 30px 50px; text-align: center; border-top: 1px solid #f2f2f2; }
-        .zap-flutuante { position: fixed; bottom: 30px; right: 30px; background: #25d366; color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 14px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; z-index: 1000; transition: 0.3s; }
-        .zap-flutuante:hover { transform: scale(1.1); background: #128C7E; }
-
-        @media (max-width: 900px) {
-            .grade-produtos { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 600px) {
-            .grade-produtos { grid-template-columns: 1fr; }
-        }
+    .img-produto {
+      height: 220px;
+      background-color: #f9f9f9;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .info-produto { padding: 20px; text-align: center; }
+    .info-produto h4 { font-family: 'Playfair Display', serif; font-size: 19px; margin-bottom: 8px; color: var(--primary); }
+    .info-produto p { font-size: 12px; color: #777; margin-bottom: 15px; height: 36px; overflow: hidden; line-height: 1.4; }
     
-        /* --- INTRO FORNO (inserido do teste, sem alterar lógica do site) --- */
-        #abertura-forno {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle, var(--forno-warm) 0%, var(--forno-dark) 100%);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 2.5s ease-in-out, visibility 2.5s;
-        }
-        .fumaca-container {
-            position: absolute;
-            width: 100%; height: 100%;
-            overflow: hidden;
-            filter: blur(60px);
-            opacity: 0.35;
-            pointer-events: none;
-        }
-        .fumaca {
-            position: absolute;
-            background: #fff;
-            width: 400px; height: 400px;
-            border-radius: 50%;
-            animation: flutuar 12s infinite alternate ease-in-out;
-        }
-        .fumaca:nth-child(1) { top: 60%; left: 10%; background: #9e7a5d; animation-duration: 15s; }
-        .fumaca:nth-child(2) { top: 30%; left: 40%; background: #d6c4b5; animation-delay: -3s; }
-        .fumaca:nth-child(3) { top: 60%; left: 70%; background: #7a4f30; animation-delay: -7s; }
+    .preco { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 15px; display: block; }
+    
+    .btn-comprar {
+      width: 100%;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 14px;
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: 0.3s;
+    }
 
-        @keyframes flutuar {
-            0% { transform: translate(0, 0) scale(1); opacity: 0.2; }
-            100% { transform: translate(150px, -200px) scale(1.8); opacity: 0.7; }
-        }
+    .mini-prova { background: #fafafa; padding: 25px; display: flex; justify-content: center; gap: 40px; border-top: 1px solid #f2f2f2; }
+    .item-prova { display: flex; align-items: center; gap: 10px; font-size: 11px; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
-        .narrativa-container {
-            text-align: center;
-            max-width: 700px;
-            padding: 40px;
-            z-index: 10;
-            position: relative;
-        }
+    footer { background: #fdfdfd; padding: 30px 50px; text-align: center; border-top: 1px solid #f2f2f2; }
+    .zap-flutuante { position: fixed; bottom: 30px; right: 30px; background: #25d366; color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 14px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; z-index: 1000; transition: 0.3s; }
+    .zap-flutuante:hover { transform: scale(1.1); background: #128C7E; }
 
-        .texto-narrativo {
-            color: #e2d1b3;
-            font-family: 'Playfair Display', serif;
-            font-size: 26px;
-            line-height: 1.6;
-            opacity: 0;
-            display: none;
-            transition: opacity 2s ease;
-        }
-        .texto-narrativo strong { color: var(--accent); font-style: italic; }
-        .texto-narrativo p { margin-bottom: 25px; }
+    @media (max-width: 900px) {
+      .grade-produtos { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .grade-produtos { grid-template-columns: 1fr; }
+    }
+  
+    /* --- INTRO FORNO (inserido do teste, sem alterar lógica do site) --- */
+    #abertura-forno {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle, var(--forno-warm) 0%, var(--forno-dark) 100%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 2.5s ease-in-out, visibility 2.5s;
+    }
+    .fumaca-container {
+      position: absolute;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      filter: blur(60px);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .fumaca {
+      position: absolute;
+      background: #fff;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      animation: flutuar 12s infinite alternate ease-in-out;
+    }
+    .fumaca:nth-child(1) { top: 60%; left: 10%; background: #9e7a5d; animation-duration: 15s; }
+    .fumaca:nth-child(2) { top: 30%; left: 40%; background: #d6c4b5; animation-delay: -3s; }
+    .fumaca:nth-child(3) { top: 60%; left: 70%; background: #7a4f30; animation-delay: -7s; }
 
-        .btn-pular {
-            position: absolute;
-            bottom: 50px;
-            background: transparent;
-            border: 1px solid rgba(226, 209, 179, 0.2);
-            color: rgba(226, 209, 179, 0.5);
-            padding: 12px 24px;
-            cursor: pointer;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            border-radius: 50px;
-            transition: 0.3s;
-            z-index: 100;
-        }
-        .btn-pular:hover { border-color: var(--accent); color: var(--accent); }
+    @keyframes flutuar {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.2; }
+      100% { transform: translate(150px, -200px) scale(1.8); opacity: 0.7; }
+    }
 
-        #abertura-forno.esconder { opacity: 0; visibility: hidden; }
+    .narrativa-container {
+      text-align: center;
+      max-width: 700px;
+      padding: 40px;
+      z-index: 10;
+      position: relative;
+    }
 
-        /* Mantém a página oficial intacta; apenas controla visibilidade durante a intro */
-        body.intro-active { overflow: hidden; }
-        body.intro-active .container-loja { opacity: 0; transform: translateY(20px); transition: opacity 2s ease, transform 2s ease; }
-        body.intro-done .container-loja { opacity: 1; transform: translateY(0); }
+    .texto-narrativo {
+      color: #e2d1b3;
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      line-height: 1.6;
+      opacity: 0;
+      display: none;
+      transition: opacity 2s ease;
+    }
+    .texto-narrativo strong { color: var(--accent); font-style: italic; }
+    .texto-narrativo p { margin-bottom: 25px; }
+
+    .btn-pular {
+      position: absolute;
+      bottom: 50px;
+      background: transparent;
+      border: 1px solid rgba(226, 209, 179, 0.2);
+      color: rgba(226, 209, 179, 0.5);
+      padding: 12px 24px;
+      cursor: pointer;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      border-radius: 50px;
+      transition: 0.3s;
+      z-index: 100;
+    }
+    .btn-pular:hover { border-color: var(--accent); color: var(--accent); }
+
+    #abertura-forno.esconder { opacity: 0; visibility: hidden; }
+
+    /* Mantém a página oficial intacta; apenas controla visibilidade durante a intro */
+    body.intro-active { overflow: hidden; }
+    body.intro-active .container-loja { opacity: 0; transform: translateY(20px); transition: opacity 2s ease, transform 2s ease; }
+    body.intro-done .container-loja { opacity: 1; transform: translateY(0); }
+
+
+    /* --- TAG QUERIDINHO --- */
+    .tag-queridinho{
+      position:absolute;
+      top:12px;
+      left:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      background: rgba(243,156,18,0.95);
+      color:#1a0d04;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.20);
+    }
+
+    /* --- CARRINHO FLUTUANTE (acesso rápido) --- */
+    .cart-fab{
+      position: fixed;
+      right: 30px;
+      bottom: 95px; /* acima do WhatsApp */
+      z-index: 1001;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: #fff;
+      color: var(--primary);
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      transition: transform .2s ease, box-shadow .2s ease;
+      user-select:none;
+    }
+    .cart-fab:hover{ transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0,0,0,0.22); }
+    .cart-fab .badge{
+      min-width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 900;
+      padding: 0 7px;
+    }
+    .cart-fab.pulse{ animation: cartPulse .35s ease; }
+    @keyframes cartPulse{ 0%{transform:scale(1)} 50%{transform:scale(1.05)} 100%{transform:scale(1)} }
+
+    /* --- Drawer do carrinho --- */
+    .cart-drawer{
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(420px, 92vw);
+      height: 100vh;
+      z-index: 1002;
+      background: rgba(255,255,255,0.98);
+      border-left: 1px solid rgba(0,0,0,0.08);
+      transform: translateX(105%);
+      transition: transform .25s ease;
+      display:flex;
+      flex-direction: column;
+      box-shadow: -10px 0 30px rgba(0,0,0,0.12);
+    }
+    .cart-drawer.open{ transform: translateX(0); }
+
+    .cart-drawer header{
+      padding: 18px 18px;
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      border-bottom: 1px solid #f2f2f2;
+    }
+    .cart-drawer header strong{
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: var(--primary);
+    }
+    .cart-drawer header button{
+      background: transparent;
+      border: 1px solid #eee;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      cursor:pointer;
+      font-size: 18px;
+      color: #666;
+      transition: .2s;
+    }
+    .cart-drawer header button:hover{ border-color: var(--accent); color: var(--accent); }
+
+    .cart-drawer .content{
+      padding: 16px 18px;
+      overflow: auto;
+      flex: 1;
+    }
+
+    .cart-item{
+      display:flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px dashed #eee;
+    }
+    .cart-item .t{
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text);
+    }
+    .cart-item .s{
+      font-size: 12px;
+      color: #777;
+      margin-top: 4px;
+    }
+    .cart-item .q{
+      font-weight: 800;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    .cart-drawer .footer{
+      padding: 16px 18px;
+      border-top: 1px solid #f2f2f2;
+      background: #fff;
+    }
+    .cart-total{
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+    .cart-total strong{ font-size: 18px; color: var(--primary); }
+    .btn-checkout-drawer{
+      width: 100%;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 14px;
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+    .btn-checkout-drawer:hover{ filter: brightness(0.95); }
+
+    .cart-empty{
+      padding: 18px 0;
+      color: #777;
+      font-size: 13px;
+    }
+
+    /* --- Balões de compra (prova social) --- */
+    .sale-toast{
+      position: fixed;
+      left: 16px;
+      bottom: 16px;
+      z-index: 1003;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.96);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+      max-width: min(340px, 86vw);
+      transform: translateY(14px);
+      opacity: 0;
+      transition: all .22s ease;
+      font-size: 13px;
+      line-height: 1.2;
+      pointer-events:none;
+    }
+    .sale-toast.show{ transform: translateY(0); opacity: 1; }
+    .sale-toast .muted{ opacity: .72; font-size: 12px; display:block; margin-top: 2px; }
 
 </style>
 </head>
 <body>
 
-    
+  
 
-    <div id="abertura-forno">
-        <div class="fumaca-container">
-            <div class="fumaca"></div>
-            <div class="fumaca"></div>
-            <div class="fumaca" style="animation-delay: -5s;"></div>
-        </div>
-
-        <div class="narrativa-container">
-            <div id="bloco-1" class="texto-narrativo">
-                <p>Aqui o pão de queijo não nasce com pressa.</p>
-                <p>Ele começa na massa bem feita, no queijo de verdade, e no <strong>tempo certo de forno.</strong></p>
-            </div>
-
-            <div id="bloco-2" class="texto-narrativo">
-                <p>Pão de queijo de verdade não se apressa.</p>
-                <p>Por isso ele chega congelado.</p>
-                <p>Não pra perder a graça — mas pra esperar o forno certo: <strong>o seu.</strong></p>
-            </div>
-        </div>
-
-        <button class="btn-pular" onclick="finalizarAbertura()">Esperar o forno... ou entrar agora</button>
+  <div id="abertura-forno">
+    <div class="fumaca-container">
+      <div class="fumaca"></div>
+      <div class="fumaca"></div>
+      <div class="fumaca" style="animation-delay: -5s;"></div>
     </div>
+
+    <div class="narrativa-container">
+      <div id="bloco-1" class="texto-narrativo">
+        <p>Aqui o pão de queijo não nasce com pressa.</p>
+        <p>Ele começa na massa bem feita, no queijo de verdade, e no <strong>tempo certo de forno.</strong></p>
+      </div>
+
+      <div id="bloco-2" class="texto-narrativo">
+        <p>Pão de queijo de verdade não se apressa.</p>
+        <p>Por isso ele chega congelado.</p>
+        <p>Não pra perder a graça — mas pra esperar o forno certo: <strong>o seu.</strong></p>
+      </div>
+    </div>
+
+    <button class="btn-pular" onclick="finalizarAbertura()">Esperar o forno... ou entrar agora</button>
+  </div>
 
 <div class="container-loja" id="main-content">
-        
-        <header>
-            <a href="index.html" class="logo">MINEIR<span>ÍSSIMO</span></a>
-            <div class="header-actions">
-                <button class="btn-limpar" onclick="limparCarrinho()">Remover</button>
-                <button class="carrinho-topo" onclick="irParaCheckout()">
-                    🛒 CARRINHO <span class="count" id="contador-carrinho">0</span>
-                </button>
-            </div>
-        </header>
+    
+    <header>
+      <a href="index.html" class="logo">MINEIR<span>ÍSSIMO</span></a>
+      <div class="header-actions">
+        <button class="btn-limpar" onclick="limparCarrinho()">Remover</button>
+        <button class="carrinho-topo" onclick="irParaCheckout()">
+          🛒 CARRINHO <span class="count" id="contador-carrinho">0</span>
+        </button>
+      </div>
+    </header>
 
-        <div class="banner-sensorial">
-            <div class="banner-content">
-                <h2>O aroma do café, o calor do queijo.</h2>
-                <p>Artesanal. Quentinho. Inesquecível.</p>
-            </div>
-        </div>
-
-        <main class="vitrine">
-            <div class="vitrine-header">
-                <h3>Nossas Fornadas</h3>
-                <hr>
-            </div>
-
-            <div class="grade-produtos">
-                
-                <div class="card-produto">
-                    <div class="img-produto" style="background-image: url('img/tradicional.png');"></div>
-                    <div class="info-produto">
-                        <h4>Tradicional Mineiro</h4>
-                        <p>A receita clássica com 40% de queijo curado real.</p>
-                        <span class="preco">R$ 44,90</span>
-                        <button class="btn-comprar" data-nome="Tradicional Mineiro" data-preco="44.90">Adicionar</button>
-                    </div>
-                </div>
-
-                <div class="card-produto">
-<div class="img-produto" style="background-image: url('img/carne-seca.png');"></div>
-                    <div class="info-produto">
-                        <h4>Carne Seca Desfiada</h4>
-                        <p>Recheio suculento de carne seca com tempero da roça.</p>
-                        <span class="preco">R$ 59,90</span>
-                        <button class="btn-comprar" data-nome="Carne Seca Desfiada" data-preco="59.90">Adicionar</button>
-                    </div>
-                </div>
-
-                <div class="card-produto">
-<div class="img-produto" style="background-image: url('img/frango.png');"></div>
-                    <div class="info-produto">
-                        <h4>Frango com Requeijão</h4>
-                        <p>Frango caipira desfiado e o cremoso requeijão mineiro.</p>
-                        <span class="preco">R$ 54,90</span>
-                        <button class="btn-comprar" data-nome="Frango com Requeijão" data-preco="54.90">Adicionar</button>
-                    </div>
-                </div>
-
-                <div class="card-produto">
-<div class="img-produto" style="background-image: url('img/goiabada.png');"></div>
-                    <div class="info-produto">
-                        <h4>Romeu e Julieta</h4>
-                        <p>O doce da goiabada cascão derretendo dentro do queijo.</p>
-                        <span class="preco">R$ 54,90</span>
-                        <button class="btn-comprar" data-nome="Romeu e Julieta" data-preco="54.90">Adicionar</button>
-                    </div>
-                </div>
-
-                <div class="card-produto">
-                    <div class="img-produto" style="background-image: url('img/geleia.png');"></div>
-                    <div class="info-produto">
-                        <h4>Geleia de Morango</h4>
-                        <p>Acompanhamento perfeito para o pão de queijo.</p>
-                        <span class="preco">R$ 5,00</span>
-                        <button class="btn-comprar" data-nome="Geleia de Morango" data-preco="5.00">Adicionar</button>
-                    </div>
-                </div>
-
-            </div>
-        </main>
-
-        <div class="mini-prova">
-            <div class="item-prova">✅ Sabor de Minas Real</div>
-            <div class="item-prova">❄️ Entrega Térmica</div>
-            <div class="item-prova">🧀 Ingredientes Selecionados</div>
-        </div>
-
-        <footer>
-            <p style="font-size: 11px; color: #aaa; letter-spacing: 1px;">MINEIRÍSSIMO BOUTIQUE © 2026. FEITO COM AFETO.</p>
-        </footer>
+    <div class="banner-sensorial">
+      <div class="banner-content">
+        <h2>O aroma do café, o calor do queijo.</h2>
+        <p>Artesanal. Quentinho. Inesquecível.</p>
+      </div>
     </div>
 
-    <a href="#" class="zap-flutuante">
-        💬 Dúvidas no WhatsApp?
-    </a>
+    <main class="vitrine">
+      <div class="vitrine-header">
+        <h3>Nossas Fornadas</h3>
+        <hr>
+      </div>
 
-    <script>
+      <div class="grade-produtos">
+        
+        <div class="card-produto">
+          <div class="img-produto" style="background-image: url('img/tradicional.png');"></div>
+          <div class="info-produto">
+            <h4>Tradicional Mineiro</h4>
+            <p>A receita clássica com 40% de queijo curado real.</p>
+            <span class="preco">44,90</span>
+            <button class="btn-comprar" data-nome="Tradicional Mineiro" data-preco="44.90">Adicionar</button>
+          </div>
+        </div>
+
         
 
-        /* --- LÓGICA DA ABERTURA "FORNO" (inserida do teste) --- */
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.classList.add("intro-active");
+        <div class="card-produto">
+<div class="img-produto" style="background-image: url('img/requeijao.png');"><div class="tag-queridinho">Queridinho 🔥</div></div>
+          <div class="info-produto">
+            <h4>Requeijão Mineiro</h4>
+            <p>O cremoso requeijão mineiro no ponto certo: simples, viciante e o mais pedido.</p>
+            <span class="preco">54,90</span>
+            <button class="btn-comprar" data-nome="Requeijão Mineiro" data-preco="54.90">Adicionar</button>
+          </div>
+        </div>
 
-            const bloco1 = document.getElementById('bloco-1');
-            const bloco2 = document.getElementById('bloco-2');
+        
 
-            // Sequência de animação (mesma do teste)
-            setTimeout(() => {
-                bloco1.style.display = "block";
-                setTimeout(() => { bloco1.style.opacity = "1"; }, 100);
-            }, 800);
+        <div class="card-produto">
+<div class="img-produto" style="background-image: url('img/carne-seca.png');"></div>
+          <div class="info-produto">
+            <h4>Carne Seca Desfiada</h4>
+            <p>Recheio suculento de carne seca com tempero da roça.</p>
+            <span class="preco">59,90</span>
+            <button class="btn-comprar" data-nome="Carne Seca Desfiada" data-preco="59.90">Adicionar</button>
+          </div>
+        </div>
 
-            setTimeout(() => {
-                bloco1.style.opacity = "0";
-                setTimeout(() => {
-                    bloco1.style.display = "none";
-                    bloco2.style.display = "block";
-                    setTimeout(() => { bloco2.style.opacity = "1"; }, 100);
-                }, 1500);
-            }, 5000);
+        
 
-            // Finalização automática
-            setTimeout(() => {
-                finalizarAbertura();
-            }, 10500);
-        });
+        <div class="card-produto">
+<div class="img-produto" style="background-image: url('img/goiabada.png');"></div>
+          <div class="info-produto">
+            <h4>Romeu e Julieta</h4>
+            <p>O doce da goiabada cascão derretendo dentro do queijo.</p>
+            <span class="preco">54,90</span>
+            <button class="btn-comprar" data-nome="Romeu e Julieta" data-preco="54.90">Adicionar</button>
+          </div>
+        </div>
 
-        function finalizarAbertura() {
-            const intro = document.getElementById('abertura-forno');
-            if (!intro) return;
-            intro.classList.add('esconder');
+        
 
-            document.body.classList.remove("intro-active");
-            document.body.classList.add("intro-done");
+        <div class="card-produto">
+          <div class="img-produto" style="background-image: url('img/frango.png');"></div>
+          <div class="info-produto">
+            <h4>Frango</h4>
+            <p>Recheio suculento de frango bem temperado, feito pra ir direto do forno pro vício.</p>
+            <span class="preco">54,90</span>
+            <button class="btn-comprar" data-nome="Frango" data-preco="54.90">Adicionar</button>
+          </div>
+        </div>
 
-            // Remove o elemento do DOM após a transição para não pesar
-            setTimeout(() => { try { intro.remove(); } catch(e) {} }, 2500);
-        }
+        <div class="card-produto">
+          <div class="img-produto" style="background-image: url('img/biscoito-parmesao.png');"></div>
+          <div class="info-produto">
+            <h4>Biscoito de parmesão</h4>
+            <p>Crocante, salgado na medida e perfeito pra acompanhar o café.</p>
+            <span class="preco">19,90</span>
+            <button class="btn-comprar" data-nome="Biscoito de parmesão" data-preco="19.90">Adicionar</button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <div class="mini-prova">
+      <div class="item-prova">✅ Sabor de Minas Real</div>
+      <div class="item-prova">❄️ Entrega Térmica</div>
+      <div class="item-prova">🧀 Ingredientes Selecionados</div>
+    </div>
+
+    <footer>
+      <p style="font-size: 11px; color: #aaa; letter-spacing: 1px;">MINEIRÍSSIMO © 2026. FEITO COM AFETO.</p>
+    </footer>
+  </div>
+
+  <a href="#" class="zap-flutuante">
+    💬 Dúvidas no WhatsApp?
+  </a>
+  <!-- Carrinho flutuante (acesso rápido) -->
+  <div class="cart-fab" id="cartFab" aria-label="Abrir carrinho">
+    🛒 <span>Sacola</span> <span class="badge" id="cartFabCount">0</span>
+  </div>
+
+  <!-- Drawer carrinho (visual; não altera a lógica do carrinho) -->
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Carrinho">
+    <header>
+      <strong>Seu pedido</strong>
+      <button id="closeCart" aria-label="Fechar">✕</button>
+    </header>
+    <div class="content" id="cartDrawerContent"></div>
+    <div class="footer">
+      <div class="cart-total">
+        <span>Total</span>
+        <strong id="cartDrawerTotal">0,00</strong>
+      </div>
+      <button class="btn-checkout-drawer" id="cartDrawerCheckout">Finalizar compra</button>
+    </div>
+  </aside>
+
+  <!-- Balões de compras (prova social) -->
+  <div class="sale-toast" id="saleToast"></div>
+
+
+  <script>
+    
+
+    /* --- LÓGICA DA ABERTURA "FORNO" (inserida do teste) --- */
+    document.addEventListener("DOMContentLoaded", () => {
+      document.body.classList.add("intro-active");
+
+      const bloco1 = document.getElementById('bloco-1');
+      const bloco2 = document.getElementById('bloco-2');
+
+      // Sequência de animação (mesma do teste)
+      setTimeout(() => {
+        bloco1.style.display = "block";
+        setTimeout(() => { bloco1.style.opacity = "1"; }, 100);
+      }, 800);
+
+      setTimeout(() => {
+        bloco1.style.opacity = "0";
+        setTimeout(() => {
+          bloco1.style.display = "none";
+          bloco2.style.display = "block";
+          setTimeout(() => { bloco2.style.opacity = "1"; }, 100);
+        }, 1500);
+      }, 5000);
+
+      // Finalização automática
+      setTimeout(() => {
+        finalizarAbertura();
+      }, 10500);
+    });
+
+    function finalizarAbertura() {
+      const intro = document.getElementById('abertura-forno');
+      if (!intro) return;
+      intro.classList.add('esconder');
+
+      document.body.classList.remove("intro-active");
+      document.body.classList.add("intro-done");
+
+      // Remove o elemento do DOM após a transição para não pesar
+      setTimeout(() => { try { intro.remove(); } catch(e) {} }, 2500);
+    }
 
 
 // Carrega o carrinho do navegador ou inicia vazio
-        let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+    let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
-        function atualizarContador() {
-            const totalItens = carrinho.reduce((total, item) => total + item.quantity, 0);
-            document.getElementById("contador-carrinho").innerText = totalItens;
-        }
+    function atualizarContador() {
+      const totalItens = carrinho.reduce((total, item) => total + item.quantity, 0);
+      document.getElementById("contador-carrinho").innerText = totalItens;
+      const fab = document.getElementById("cartFabCount");
+      if (fab) fab.innerText = totalItens;
+    }
 
-        function limparCarrinho() {
-            if (carrinho.length === 0) return;
-            if (confirm("Deseja esvaziar sua sacola?")) {
-                carrinho = [];
-                localStorage.removeItem("carrinho");
-                atualizarContador();
-            }
-        }
-
-        const botoes = document.querySelectorAll('.btn-comprar');
-        botoes.forEach(botao => {
-            botao.addEventListener('click', () => {
-                const nome = botao.getAttribute('data-nome');
-                const preco = parseFloat(botao.getAttribute('data-preco'));
-
-                const itemExistente = carrinho.find(item => item.title === nome);
-
-                if (itemExistente) {
-                    itemExistente.quantity += 1;
-                } else {
-                    carrinho.push({ title: nome, price: preco, quantity: 1 });
-                }
-
-                localStorage.setItem("carrinho", JSON.stringify(carrinho));
-                atualizarContador();
-
-                // Feedback visual verde
-                const textoOriginal = botao.innerText;
-                botao.innerText = "✓ Adicionado";
-                botao.style.background = "#27ae60";
-                setTimeout(() => {
-                    botao.innerText = textoOriginal;
-                    botao.style.background = "#F39C12";
-                }, 800);
-            });
-        });
-
-        function irParaCheckout() {
-            if (carrinho.length === 0) {
-                alert("Escolha uma delícia primeiro!");
-                return;
-            }
-            window.location.href = "checkout.html";
-        }
-
-        // Inicia o contador ao abrir a página
+    function limparCarrinho() {
+      if (carrinho.length === 0) return;
+      if (confirm("Deseja esvaziar sua sacola?")) {
+        carrinho = [];
+        localStorage.removeItem("carrinho");
         atualizarContador();
-    </script>
+      }
+    }
+
+    const botoes = document.querySelectorAll('.btn-comprar');
+    botoes.forEach(botao => {
+      botao.addEventListener('click', () => {
+        const nome = botao.getAttribute('data-nome');
+        const preco = parseFloat(botao.getAttribute('data-preco'));
+
+        const itemExistente = carrinho.find(item => item.title === nome);
+
+        if (itemExistente) {
+          itemExistente.quantity += 1;
+        } else {
+          carrinho.push({ title: nome, price: preco, quantity: 1 });
+        }
+
+        localStorage.setItem("carrinho", JSON.stringify(carrinho));
+        atualizarContador();
+        window.__mineirissimoRenderCart && window.__mineirissimoRenderCart();
+        // pulse no carrinho flutuante pra pessoa ver onde foi parar
+        const cartFabEl = document.getElementById('cartFab');
+        if (cartFabEl){ cartFabEl.classList.add('pulse'); setTimeout(()=>cartFabEl.classList.remove('pulse'), 380); }
+
+        // Feedback visual verde
+        const textoOriginal = botao.innerText;
+        botao.innerText = "✓ Adicionado";
+        botao.style.background = "#27ae60";
+        setTimeout(() => {
+          botao.innerText = textoOriginal;
+          botao.style.background = "#F39C12";
+        }, 800);
+      });
+    });
+
+    function irParaCheckout() {
+      if (carrinho.length === 0) {
+        alert("Escolha uma delícia primeiro!");
+        return;
+      }
+      window.location.href = "checkout.html";
+    }
+
+    
+    /* --- CARRINHO FLUTUANTE + DRAWER (acesso rápido, sem mexer no contrato) --- */
+    (function(){
+      const cartFab = document.getElementById('cartFab');
+      const drawer = document.getElementById('cartDrawer');
+      const closeBtn = document.getElementById('closeCart');
+      const content = document.getElementById('cartDrawerContent');
+      const totalEl = document.getElementById('cartDrawerTotal');
+      const checkoutBtn = document.getElementById('cartDrawerCheckout');
+
+      function fmt(v){
+        return (Number(v || 0)).toFixed(2).replace('.', ',');
+      }
+
+      function subtotal(){
+        return carrinho.reduce((acc, it) => acc + (Number(it.price||0) * Number(it.quantity||0)), 0);
+      }
+
+      function renderCart(){
+        if (!content || !totalEl) return;
+        if (!carrinho || carrinho.length === 0){
+          content.innerHTML = '<div class="cart-empty">Sua sacola está vazia. Escolha uma fornada e volte aqui 😉</div>';
+          totalEl.innerText = '0,00';
+          return;
+        }
+
+        content.innerHTML = carrinho.map(it => {
+          const line = Number(it.price||0) * Number(it.quantity||0);
+          return `
+            <div class="cart-item">
+              <div>
+                <div class="t">${it.title}</div>
+                <div class="s">${it.quantity}x • ${fmt(it.price)}</div>
+              </div>
+              <div class="q">${fmt(line)}</div>
+            </div>
+          `;
+        }).join('');
+
+        totalEl.innerText = fmt(subtotal());
+      }
+
+      window.__mineirissimoRenderCart = renderCart;
+
+      function openDrawer(){
+        renderCart();
+        drawer && drawer.classList.add('open');
+      }
+      function closeDrawer(){
+        drawer && drawer.classList.remove('open');
+      }
+
+      cartFab && cartFab.addEventListener('click', openDrawer);
+      closeBtn && closeBtn.addEventListener('click', closeDrawer);
+
+      // fecha clicando fora (leve, sem overlay pesado)
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeDrawer();
+      });
+
+      checkoutBtn && checkoutBtn.addEventListener('click', () => {
+        closeDrawer();
+        irParaCheckout();
+      });
+
+      // primeira render
+      renderCart();
+    })();
+
+    /* --- PROVA SOCIAL: balõezinhos de compra --- */
+    (function(){
+      const toast = document.getElementById('saleToast');
+      if (!toast) return;
+
+      const nomes = ["Vanessa","Bruno","Carla","Diego","Aline","Rafaela","Gustavo","Bianca","Lucas","Mariana","Fernanda","João","Camila","Pedro","Larissa","Renata","Felipe","Juliana","Mateus","Isabela"];
+      const bairros = ["Centro","Estação","Vila Nova","Jardim América","Santa Rita","Jardim Paulista","Cidade Nova","São Joaquim","Jardim Aeroporto","Vila Industrial","Vila Mariana"];
+      // puxa recheios reais dos botões (data-nome) pra não inventar
+      const produtos = Array.from(document.querySelectorAll('.btn-comprar')).map(b => b.getAttribute('data-nome')).filter(Boolean);
+
+      function rand(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+      function show(){
+        // não atrapalhar se drawer estiver aberto
+        const drawer = document.getElementById('cartDrawer');
+        if (drawer && drawer.classList.contains('open')) return;
+
+        const nome = rand(nomes);
+        const bairro = rand(bairros);
+        const prod = rand(produtos.length ? produtos : ["Tradicional Mineiro","Requeijão Mineiro","Romeu e Julieta"]);
+        toast.innerHTML = `<strong>${nome}</strong> — <span>${bairro}</span> comprou <strong>${prod}</strong><span class="muted">agora mesmo</span>`;
+        toast.classList.add('show');
+        setTimeout(()=> toast.classList.remove('show'), 4200);
+      }
+
+      (function loop(){
+        const delay = 7000 + Math.random()*11000; // 7–18s
+        setTimeout(()=>{ show(); loop(); }, delay);
+      })();
+    })();
+
+
+    // Inicia o contador ao abrir a página
+    atualizarContador();
+    window.__mineirissimoRenderCart && window.__mineirissimoRenderCart();
+  </script>
 </body>
 </html>
