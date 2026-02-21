@@ -1,207 +1,518 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Carrinho | Mineiríssimo Boutique</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root{ --cafe:#5D2E0C; --ambar:#F39C12; --bg:#EAE7E1; --white:#fff; --success:#27ae60; }
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Montserrat',sans-serif;background:var(--bg);padding:30px 0;color:#333}
-        .container{ max-width:1100px; margin:auto; background:var(--white); box-shadow:0 10px 40px rgba(0,0,0,.1); border-radius:4px; display:grid; grid-template-columns:1fr 380px; overflow:hidden; }
-        header{ grid-column:1/span 2; padding:25px 50px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center; }
-        .logo{ font-family:'Playfair Display',serif; font-size:24px; color:var(--cafe); text-decoration:none; font-weight:700; }
-        .logo span{color:var(--ambar)}
-        main{padding:40px 50px}
-        h2{ font-family:'Playfair Display',serif; font-size:28px; color:var(--cafe); margin-bottom:30px; }
-        .item{ display:flex; justify-content:space-between; padding:15px 0; border-bottom:1px solid #eee; }
-        .item h4{font-family:'Playfair Display',serif;color:var(--cafe)}
-        
-        /* Estilos dos Campos de Entrega */
-        .secao-dados { background: #fdfdfd; padding: 20px; border: 1px solid #eee; border-radius: 4px; margin-bottom: 30px; }
-        .campo { margin-bottom: 15px; }
-        .campo label { display: block; font-size: 11px; font-weight: 700; color: var(--cafe); margin-bottom: 5px; }
-        .campo input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-family: 'Montserrat', sans-serif; }
-        
-        aside{ background:#fafafa; padding:40px; border-left:1px solid #eee; }
-        .linha{ display:flex; justify-content:space-between; margin-bottom:15px; font-size:14px; }
-        .total{ margin-top:25px; padding-top:20px; border-top:2px solid #eee; display:flex; justify-content:space-between; font-size:24px; font-family:'Playfair Display',serif; font-weight:700; color:var(--cafe); }
-        
-        button{ width:100%; margin-top:15px; border:none; padding:20px; font-size:15px; font-weight:700; border-radius:4px; cursor:pointer; color:white; display:flex; justify-content:center; align-items:center; gap:10px; transition:.3s; }
-        .btn-dados { background: var(--cafe); opacity: 0.9; }
-        .btn-mp { background: var(--ambar); }
-        button:hover{ transform:translateY(-2px); opacity: 1; }
-        button:disabled{ background:#ccc; cursor:not-allowed; }
-        
-        .spinner{ display:none; width:18px; height:18px; border:3px solid rgba(255,255,255,.3); border-top-color:white; border-radius:50%; animation:spin 1s linear infinite; }
-        @keyframes spin{to{transform:rotate(360deg)}}
-        @media(max-width:900px){ .container{grid-template-columns:1fr} aside{border-left:none;border-top:1px solid #eee} }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout | Mineiríssimo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{ --cafe:#5D2E0C; --ambar:#F39C12; --bg:#EAE7E1; --white:#fff; --success:#27ae60; --muted:#777; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Montserrat',sans-serif;background:var(--bg);padding:26px 0;color:#333}
+    .container{
+      max-width:1100px;margin:auto;background:var(--white);
+      box-shadow:0 10px 40px rgba(0,0,0,.10);
+      border-radius:8px; overflow:hidden;
+      display:grid; grid-template-columns:1fr 360px;
+    }
+    header{
+      grid-column:1/span 2;
+      padding:22px 40px;
+      border-bottom:1px solid #eee;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .logo{ font-family:'Playfair Display',serif; font-size:24px; color:var(--cafe); text-decoration:none; font-weight:700; }
+    .logo span{color:var(--ambar)}
+    main{padding:34px 40px}
+    aside{ background:#fafafa; padding:34px 28px; border-left:1px solid #eee; display:flex; flex-direction:column; gap:14px; }
+    h2{ font-family:'Playfair Display',serif; font-size:26px; color:var(--cafe); margin-bottom:18px; }
+    .card{
+      background:#fff; border:1px solid #eee; border-radius:10px;
+      padding:18px; margin-bottom:18px;
+    }
+    .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .campo{ margin-bottom:12px; }
+    .campo label{ display:block; font-size:11px; font-weight:800; letter-spacing:.5px; color:var(--cafe); margin-bottom:6px; }
+    .campo input{
+      width:100%; padding:12px 12px;
+      border:1px solid #ddd; border-radius:10px;
+      font-family:'Montserrat',sans-serif;
+      outline:none;
+    }
+    .campo input:focus{ border-color:rgba(243,156,18,.55); box-shadow:0 0 0 4px rgba(243,156,18,.12); }
+    .assist{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; margin-top:8px; flex-wrap:wrap;
+      font-size:12px; color:var(--muted);
+    }
+    .assist a{
+      color:var(--cafe); font-weight:800; text-decoration:none;
+      border-bottom:1px dashed rgba(93,46,12,.35);
+    }
+    .assist a:hover{ border-bottom-color:rgba(93,46,12,.8); }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius:999px;
+      border:1px solid #eee; background:#fff;
+      font-size:12px; color:#444;
+    }
+    .pill strong{ color:var(--cafe); }
+    .items{ margin-top:10px; }
+    .item{
+      display:flex; justify-content:space-between; align-items:flex-start;
+      gap:14px;
+      padding:12px 0; border-bottom:1px solid #eee;
+    }
+    .item:last-child{ border-bottom:0; }
+    .item h4{ font-family:'Playfair Display',serif; color:var(--cafe); font-size:16px; margin-bottom:2px; }
+    .meta{ font-size:12px; color:var(--muted); }
+    .qty{
+      display:flex; align-items:center; gap:8px; margin-top:8px;
+    }
+    .qbtn{
+      width:30px;height:30px;border-radius:10px;
+      border:1px solid #ddd;background:#fff;cursor:pointer;
+      font-weight:900;
+    }
+    .qval{ min-width:24px; text-align:center; font-weight:800; color:#333; }
+    .price{ font-weight:800; color:#333; white-space:nowrap; }
+    .linha{ display:flex; justify-content:space-between; font-size:14px; }
+    .linha span:last-child{ font-weight:800; }
+    .total{
+      margin-top:6px; padding-top:14px; border-top:2px solid #eee;
+      display:flex; justify-content:space-between; align-items:baseline;
+      font-family:'Playfair Display',serif; font-size:24px; font-weight:800; color:var(--cafe);
+    }
+    .btn{
+      width:100%;
+      border:none; padding:16px 14px; border-radius:12px;
+      cursor:pointer; color:#fff; font-weight:900; font-size:14px;
+      display:flex; justify-content:center; align-items:center; gap:10px;
+      transition:.2s;
+    }
+    .btn:active{ transform:translateY(1px); }
+    .btn-save{ background:var(--cafe); opacity:.95; }
+    .btn-pay{ background:var(--ambar); }
+    .btn:disabled{ background:#cfcfcf; cursor:not-allowed; }
+    .spinner{ display:none; width:18px; height:18px; border:3px solid rgba(255,255,255,.35); border-top-color:#fff; border-radius:50%; animation:spin 1s linear infinite; }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* WhatsApp FAB (minimal) */
+    .whats-fab{
+      position:fixed; right:18px; bottom:18px;
+      width:54px; height:54px; border-radius:999px;
+      border:none; background:#25D366; cursor:pointer;
+      box-shadow:0 10px 30px rgba(0,0,0,.22);
+      display:grid; place-items:center;
+      z-index:9999;
+    }
+    .whats-fab span{ font-size:22px; }
+    .toast{
+      position:fixed; right:18px; bottom:84px;
+      background:rgba(10,10,12,.88); color:#fff;
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(10px);
+      border-radius:14px;
+      padding:10px 12px;
+      max-width:280px;
+      opacity:0; transform: translateY(10px);
+      transition: .2s ease;
+      z-index:9999;
+      font-size:12px; line-height:1.3;
+    }
+    .toast.show{ opacity:1; transform: translateY(0); }
+
+
+    /* Link-button (sem e-mail) */
+    .btn-link{
+      border:none;
+      background:transparent;
+      color:var(--cafe);
+      font-weight:900;
+      cursor:pointer;
+      padding:0;
+      text-decoration:none;
+      border-bottom:1px dashed rgba(93,46,12,.35);
+    }
+    .btn-link:hover{ border-bottom-color:rgba(93,46,12,.8); }
+
+    /* Modal */
+    .modal-overlay{
+      position:fixed; inset:0;
+      background:rgba(10,10,12,.55);
+      backdrop-filter: blur(6px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:10000;
+      padding:18px;
+    }
+    .modal-overlay.open{ display:flex; }
+    .modal{
+      width:min(420px, 92vw);
+      background:#fff;
+      border-radius:18px;
+      box-shadow:0 18px 60px rgba(0,0,0,.25);
+      padding:22px 18px 18px;
+      position:relative;
+      text-align:center;
+      border:1px solid rgba(0,0,0,.06);
+    }
+    .modal-icon{
+      width:54px;height:54px;border-radius:16px;
+      display:grid;place-items:center;
+      margin:0 auto 10px;
+      background:rgba(37,211,102,.12);
+      color:#1a7f3c;
+      font-size:26px;
+      border:1px solid rgba(37,211,102,.25);
+    }
+    .modal h3{
+      font-family:'Playfair Display',serif;
+      color:var(--cafe);
+      font-size:24px;
+      margin-bottom:8px;
+    }
+    .modal p{
+      color:#555;
+      font-size:14px;
+      line-height:1.35;
+      margin-bottom:14px;
+    }
+    .modal-sub{
+      margin-top:10px;
+      font-size:12px;
+      color:#888;
+      line-height:1.25;
+    }
+    .modal-close{
+      position:absolute; right:10px; top:10px;
+      width:36px;height:36px;border-radius:12px;
+      border:1px solid #eee;background:#fff;
+      cursor:pointer;
+      font-weight:900;
+      color:#777;
+    }
+
+    @media(max-width:900px){
+      body{ padding:14px 0; }
+      .container{ grid-template-columns:1fr; border-radius:12px; }
+      header{ grid-column:1/span 1; padding:18px 18px; }
+      main{ padding:22px 18px; }
+      aside{ border-left:none; border-top:1px solid #eee; padding:20px 18px; position:sticky; bottom:0; }
+      .whats-fab{ right:14px; bottom:14px; }
+      .toast{ right:14px; bottom:78px; }
+    }
+  </style>
 </head>
 <body>
 
 <div class="container">
-    <header>
-        <a href="index.html" class="logo">MINEIR<span>ÍSSIMO</span></a>
-        <div style="font-size:10px;color:#aaa;font-weight:700;letter-spacing:1px">🔒 CHECKOUT SEGURO</div>
-    </header>
+  <header>
+    <a href="index.html" class="logo">MINEIR<span>ÍSSIMO</span></a>
+    <div style="font-size:10px;color:#aaa;font-weight:800;letter-spacing:1px">🔒 CHECKOUT</div>
+  </header>
 
-    <main>
-        <h2>Dados de Entrega</h2>
-        <div class="secao-dados">
-            <div class="campo">
-                <label>NOME COMPLETO</label>
-                <input type="text" id="nome" placeholder="Como devemos chamar você?">
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div class="campo">
-                    <label>CPF</label>
-                    <input type="text" id="cpf" placeholder="000.000.000-00">
-                </div>
-                <div class="campo">
-                    <label>WHATSAPP</label>
-                    <input type="tel" id="whatsapp" placeholder="(00) 90000-0000">
-                </div>
-            </div>
-            <div class="campo">
-                <label>ENDEREÇO COMPLETO</label>
-                <input type="text" id="endereco" placeholder="Rua, número, bairro e cidade">
-            </div>
-            <button onclick="enviarParaPlanilha()" class="btn-dados" id="btn-envio">
-                <span id="texto-envio">Salvar Dados de Entrega</span>
-            </button>
+  <main>
+    <h2>Entrega</h2>
+
+    <div class="card">
+      <div class="campo">
+        <label>NOME</label>
+        <input type="text" id="nome" placeholder="Seu nome" autocomplete="name">
+      </div>
+
+      
+      <div class="campo">
+        <label>WHATSAPP</label>
+        <input type="tel" id="whatsapp" placeholder="(00) 90000-0000" autocomplete="tel">
+        <div class="assist" style="justify-content:flex-start;">
+          <span class="pill">Contato rápido</span>
         </div>
+      </div>
 
-        <h2>Resumo do Carrinho</h2>
-        <div id="lista"></div>
-    </main>
+      <div class="campo">
+        <label>ENDEREÇO</label>
+        <input type="text" id="endereco" placeholder="Rua, número, bairro e cidade" autocomplete="street-address">
+      </div>
 
-    <aside>
-        <h3 style="font-family:'Playfair Display',serif;color:var(--cafe);margin-bottom:25px">Pagamento</h3>
-        <div class="linha"><span>Subtotal</span><span id="subtotal"> 0,00</span></div>
-        <div class="linha"><span>Frete</span><span style="color:var(--success);font-weight:700">GRÁTIS</span></div>
-        <div class="total"><span>Total</span><span id="total"> 0,00</span></div>
 
-        <button onclick="pagar()" id="btn-pagar" class="btn-mp" disabled title="Salve os dados de entrega primeiro">
-            <div class="spinner" id="spinner"></div>
-            <span id="texto-btn">Pagar com Mercado Pago</span>
-        </button>
-    </aside>
+      <div class="campo">
+        <label>E-MAIL</label>
+        <input type="email" id="email" placeholder="seuemail@exemplo.com" autocomplete="email">
+        <div class="assist" style="justify-content:flex-start;">
+          <button type="button" class="btn-link" id="noEmailBtn">Não tenho e-mail</button>
+        </div>
+      </div>
+
+      <button class="btn btn-save" id="btn-envio" type="button" onclick="enviarParaPlanilha()">
+        <span id="texto-envio">Salvar dados</span>
+      </button>
+    </div>
+
+    <h2>Seu pedido</h2>
+    <div class="card">
+      <div class="items" id="lista"></div>
+    </div>
+  </main>
+
+  <aside>
+    <div class="linha"><span>Subtotal</span><span id="subtotal">0,00</span></div>
+    <div class="linha"><span>Frete</span><span style="color:var(--success);font-weight:900">GRÁTIS</span></div>
+    <div class="total"><span>Total</span><span id="total">0,00</span></div>
+
+    <button class="btn btn-pay" id="btn-pagar" type="button" onclick="pagar()" disabled title="Salve os dados primeiro">
+      <div class="spinner" id="spinner"></div>
+      <span id="texto-btn">Pagar com Mercado Pago</span>
+    </button>
+    <div style="font-size:11px;color:#888;line-height:1.25;margin-top:2px">
+      Cada item é um <strong>pacote congelado de 1kg</strong>.
+    </div>
+  </aside>
 </div>
 
-<script>
-    const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-    const lista = document.getElementById("lista");
-    const subtotalEl = document.getElementById("subtotal");
-    const totalEl = document.getElementById("total");
+<!-- Modal: Sem e-mail -->
+<div class="modal-overlay" id="noEmailModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="noEmailTitle">
+    <button class="modal-close" type="button" id="closeNoEmail" aria-label="Fechar">✕</button>
+    <div class="modal-icon">💬</div>
+    <h3 id="noEmailTitle">Sem e-mail?</h3>
+    <p>Sem problema. Fale com a gente no WhatsApp que a gente <strong>finaliza a compra pra você</strong>.</p>
+    <button class="btn btn-pay" type="button" id="goWhatsNoEmail">Ir para o WhatsApp</button>
+    <div class="modal-sub">A mensagem já vai com os pacotes escolhidos.</div>
+  </div>
+</div>
 
-    if (carrinho.length === 0) {
-        lista.innerHTML = "<p>Seu carrinho está vazio.</p>";
+<button class="whats-fab" id="whatsFab" type="button" aria-label="WhatsApp">
+  <span>💬</span>
+</button>
+<div class="toast" id="toast"></div>
+
+<script>
+  // ====== Carrinho (contrato mantido: localStorage "carrinho" com {title, price, quantity}) ======
+  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+  const lista = document.getElementById("lista");
+  const subtotalEl = document.getElementById("subtotal");
+  const totalEl = document.getElementById("total");
+
+  const nomeEl = document.getElementById("nome");
+  const emailEl = document.getElementById("email");
+  const whatsappEl = document.getElementById("whatsapp");
+  const enderecoEl = document.getElementById("endereco");
+
+  const btnPagar = document.getElementById("btn-pagar");
+  const btnEnvio = document.getElementById("btn-envio");
+  const textoEnvio = document.getElementById("texto-envio");
+
+
+  const whatsFab = document.getElementById("whatsFab");
+  const toast = document.getElementById("toast");
+
+  // Troque pelo seu número (com DDI). Ex: 55 + DDD + número (somente dígitos)
+  const WHATSAPP_NUMERO = "5516991874008";
+
+  const fmt = (v) => Number(v || 0).toFixed(2).replace(".", ",");
+
+  const noEmailBtn = document.getElementById("noEmailBtn");
+  const noEmailModal = document.getElementById("noEmailModal");
+  const closeNoEmail = document.getElementById("closeNoEmail");
+  const goWhatsNoEmail = document.getElementById("goWhatsNoEmail");
+
+
+
+  function openNoEmailModal(){
+    noEmailModal?.classList.add("open");
+    noEmailModal?.setAttribute("aria-hidden","false");
+  }
+  function closeNoEmailModal(){
+    noEmailModal?.classList.remove("open");
+    noEmailModal?.setAttribute("aria-hidden","true");
+  }
+
+  noEmailBtn?.addEventListener("click", () => openNoEmailModal());
+  closeNoEmail?.addEventListener("click", () => closeNoEmailModal());
+  noEmailModal?.addEventListener("click", (e)=>{ if(e.target === noEmailModal) closeNoEmailModal(); });
+  goWhatsNoEmail?.addEventListener("click", () => { closeNoEmailModal(); abrirWhatsApp(); });
+
+  function showToast(msg){
+    if(!toast) return;
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"), 2200);
+  }
+
+  function salvarCarrinho(){ localStorage.setItem("carrinho", JSON.stringify(carrinho)); }
+
+  function calcularTotal(){
+    return (carrinho || []).reduce((acc, p) => acc + (Number(p.price||0) * Number(p.quantity||0)), 0);
+  }
+
+  function abrirWhatsApp(){
+    const nome = (nomeEl?.value || "").trim();
+    const pedido = (carrinho || []).map(p => `${p.quantity}x ${p.title} (1kg congelado)`).join(", ");
+    const total = fmt(calcularTotal());
+
+    const msg = `Olá! Quero finalizar um pedido na Mineiríssimo.\n` +
+                `Nome: ${nome || "—"}\n` +
+                `WhatsApp: ${(whatsappEl?.value || "").trim() || "—"}\n` +
+                `Endereço: ${(enderecoEl?.value || "").trim() || "—"}\n` +
+                `Pedido: ${pedido || "—"}\n` +
+                `Total: ${total}` );
+
+    const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(msg)}`;
+    window.open(url, "_blank");
+  }
+
+  whatsFab?.addEventListener("click", () => abrirWhatsApp());
+
+  function renderCarrinho(){
+    lista.innerHTML = "";
+    if(!carrinho || carrinho.length === 0){
+      lista.innerHTML = "<p style='color:#777'>Seu carrinho está vazio.</p>";
+      subtotalEl.textContent = "0,00";
+      totalEl.textContent = "0,00";
+      return;
     }
 
-    let valorTotal = 0;
-    carrinho.forEach(prod => {
-        const linha = document.createElement("div");
-        linha.className = "item";
-        linha.innerHTML = `
-            <div>
-                <h4>${prod.title}</h4>
-                <small style="color:#888">Quantidade: ${prod.quantity}</small>
-            </div>
-            <span>R$ ${(prod.price * prod.quantity).toFixed(2).replace('.', ',')}</span>
-        `;
-        lista.appendChild(linha);
-        valorTotal += prod.price * prod.quantity;
+    let total = 0;
+
+    carrinho.forEach((prod, idx) => {
+      const subtotalItem = Number(prod.price||0) * Number(prod.quantity||0);
+      total += subtotalItem;
+
+      const row = document.createElement("div");
+      row.className = "item";
+      row.innerHTML = `
+        <div style="min-width:0;">
+          <h4>${prod.title}</h4>
+          <div class="meta">Pacote congelado <strong>1kg</strong></div>
+          <div class="qty">
+            <button type="button" class="qbtn" data-action="minus" data-idx="${idx}" aria-label="Diminuir">−</button>
+            <div class="qval">${prod.quantity}</div>
+            <button type="button" class="qbtn" data-action="plus" data-idx="${idx}" aria-label="Aumentar">+</button>
+          </div>
+        </div>
+        <div class="price">${fmt(subtotalItem)}</div>
+      `;
+      lista.appendChild(row);
     });
 
-    subtotalEl.innerText = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
-    totalEl.innerText = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
+    subtotalEl.textContent = fmt(total);
+    totalEl.textContent = fmt(total);
 
-    // --- FUNÇÃO DE ENVIO PARA GOOGLE SHEETS ---
-    async function enviarParaPlanilha() {
-        const btn = document.getElementById("btn-envio");
-        const texto = document.getElementById("texto-envio");
-        
-        const dados = {
-            nome: document.getElementById("nome").value,
-            cpf: document.getElementById("cpf").value,
-            whatsapp: document.getElementById("whatsapp").value,
-            endereco: document.getElementById("endereco").value,
-            pedido: carrinho.map(p => `${p.quantity}x ${p.title}`).join(', '),
-            total: document.getElementById("total").innerText
-        };
+    // event delegation
+    lista.querySelectorAll(".qbtn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const idx = Number(btn.getAttribute("data-idx"));
+        const action = btn.getAttribute("data-action");
+        if(Number.isNaN(idx) || !carrinho[idx]) return;
 
-        if(!dados.nome || !dados.cpf || !dados.endereco) return alert("Por favor, preencha todos os dados de entrega!");
+        if(action === "plus") carrinho[idx].quantity = Number(carrinho[idx].quantity||0) + 1;
+        if(action === "minus") carrinho[idx].quantity = Number(carrinho[idx].quantity||0) - 1;
 
-        btn.disabled = true;
-        texto.innerText = "Salvando dados...";
+        if(carrinho[idx].quantity <= 0) carrinho.splice(idx, 1);
 
-        // URL do seu Google Apps Script (App Web)
-        const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbwdSbxjUkjsLvpSQZKOmdQViuPpL59gKcOSeUIgxMEANlMscrNH4sMWDJVpX9vC1A0s/exec";
+        salvarCarrinho();
+        renderCarrinho();
+      });
+    });
+  }
 
-        try {
-            await fetch(URL_WEB_APP, {
-                method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(dados)
-            });
-            
-            texto.innerText = "✓ Dados Salvos!";
-            btn.style.background = "#27ae60";
-            // Libera o botão de pagamento após salvar os dados
-            document.getElementById("btn-pagar").disabled = false;
-        } catch (e) {
-            console.error(e);
-            alert("Erro ao salvar dados. Tente novamente.");
-            btn.disabled = false;
-            texto.innerText = "Tentar novamente";
-        }
+  renderCarrinho();
+
+  // ====== FUNÇÃO DE ENVIO PARA GOOGLE SHEETS ======
+  async function enviarParaPlanilha(){
+    const nome = (nomeEl?.value || "").trim();
+    const email = (emailEl?.value || "").trim();
+    const whatsapp = (whatsappEl?.value || "").trim();
+    const endereco = (enderecoEl?.value || "").trim();
+
+    if(!nome || !endereco) return alert("Por favor, preencha NOME e ENDEREÇO!");
+    if(!carrinho || carrinho.length === 0) return alert("Seu carrinho está vazio.");
+
+    // regra: e-mail obrigatório. Sem e-mail → WhatsApp.
+    if(!email){
+      openNoEmailModal();
+      return;
     }
 
-    // --- FUNÇÃO MERCADO PAGO ---
-    async function pagar(){
-        const btn = document.getElementById("btn-pagar");
-        const textoBtn = document.getElementById("texto-btn");
-        const spinner = document.getElementById("spinner");
+    btnEnvio.disabled = true;
+    textoEnvio.textContent = "Salvando...";
 
-        btn.disabled = true;
-        textoBtn.innerText = "Conectando...";
-        spinner.style.display = "block";
+    const pedidoStr = (carrinho || []).map(p => `${p.quantity}x ${p.title} (1kg congelado)`).join(", ");
+    const totalStr = totalEl.textContent; // já sem R$
+    const dataHora = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
 
-        const payload = {
-            items: carrinho.map(p => ({
-                title: p.title,
-                unit_price: p.price,
-                quantity: p.quantity
-            }))
-        };
+    const dados = {
+      nome,
+      email,
+      whatsapp,
+      endereco,
+      pedido: pedidoStr,
+      total: totalStr,
+      dataHora
+    };
 
-        try {
-            const res = await fetch("/api/finalizar-compra", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
+    const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbwdSbxjUkjsLvpSQZKOmdQViuPpL59gKcOSeUIgxMEANlMscrNH4sMWDJVpX9vC1A0s/exec";
 
-            const data = await res.json();
-            if (data.init_point) {
-                window.location.href = data.init_point;
-            } else {
-                throw new Error("Erro no link");
-            }
-        } catch (e) {
-            alert("Erro ao iniciar pagamento. Verifique sua conexão.");
-            btn.disabled = false;
-            textoBtn.innerText = "Pagar com Mercado Pago";
-            spinner.style.display = "none";
-        }
+    try{
+      await fetch(URL_WEB_APP, {
+        method:"POST",
+        mode:"no-cors",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify(dados)
+      });
+
+      textoEnvio.textContent = "✓ Dados salvos";
+      btnEnvio.style.background = "#27ae60";
+      btnPagar.disabled = false;
+      showToast("Pronto. Pode pagar ✅");
+    }catch(e){
+      console.error(e);
+      alert("Erro ao salvar dados. Tente novamente.");
+      btnEnvio.disabled = false;
+      textoEnvio.textContent = "Salvar dados";
     }
+  }
+
+  // ====== FUNÇÃO MERCADO PAGO (mantida) ======
+  async function pagar(){
+    const textoBtn = document.getElementById("texto-btn");
+    const spinner = document.getElementById("spinner");
+
+    btnPagar.disabled = true;
+    textoBtn.textContent = "Conectando...";
+    spinner.style.display = "inline-block";
+
+    const payload = {
+      items: (carrinho || []).map(p => ({
+        title: p.title,
+        unit_price: p.price,
+        quantity: p.quantity
+      }))
+    };
+
+    try{
+      const res = await fetch("/api/finalizar-compra", {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+      if(data.init_point){
+        window.location.href = data.init_point;
+      } else {
+        throw new Error("Sem init_point");
+      }
+    }catch(e){
+      alert("Erro ao iniciar pagamento. Verifique sua conexão.");
+      btnPagar.disabled = false;
+      textoBtn.textContent = "Pagar com Mercado Pago";
+      spinner.style.display = "none";
+    }
+  }
 </script>
 
 </body>
 </html>
-</html>
-
-
