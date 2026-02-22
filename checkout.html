@@ -357,7 +357,7 @@
                 `WhatsApp: ${(whatsappEl?.value || "").trim() || "—"}\n` +
                 `Endereço: ${(enderecoEl?.value || "").trim() || "—"}\n` +
                 `Pedido: ${pedido || "—"}\n` +
-                `Total: ${total}` );
+                `Total: ${total}`;
 
     const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(msg)}`;
     window.open(url, "_blank");
