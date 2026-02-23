@@ -125,16 +125,27 @@
 
     /* Link-button (sem e-mail) */
     .btn-link{
-      border:none;
-      background:transparent;
-      color:var(--cafe);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      width:auto;
+      border-radius:12px;
+      padding:10px 14px;
+      border:1px solid rgba(93,46,12,.35);
+      background:var(--cafe);
+      color:#fff;
       font-weight:900;
       cursor:pointer;
-      padding:0;
       text-decoration:none;
-      border-bottom:1px dashed rgba(93,46,12,.35);
+      border-bottom:1px dashed rgba(255,255,255,.75);
+      box-shadow:0 10px 24px rgba(0,0,0,.10);
+      line-height:1;
     }
-    .btn-link:hover{ border-bottom-color:rgba(93,46,12,.8); }
+    .btn-link:hover{
+      filter:brightness(.96);
+      border-bottom-color:rgba(255,255,255,.95);
+    }
 
     /* Modal */
     .modal-overlay{
@@ -214,20 +225,22 @@
   </header>
 
   <main>
+    <h2>Seu pedido</h2>
+    <div class="card">
+      <div class="items" id="lista"></div>
+    </div>
+
     <h2>Entrega</h2>
 
     <div class="card">
-      <div class="campo">
+      <div class="grid2">
+        <div class="campo">
         <label>NOME</label>
         <input type="text" id="nome" placeholder="Seu nome" autocomplete="name">
-      </div>
-
-      
-      <div class="campo">
+        </div>
+        <div class="campo">
         <label>WHATSAPP</label>
         <input type="tel" id="whatsapp" placeholder="(00) 90000-0000" autocomplete="tel">
-        <div class="assist" style="justify-content:flex-start;">
-          <span class="pill">Contato rápido</span>
         </div>
       </div>
 
@@ -248,11 +261,6 @@
       <button class="btn btn-save" id="btn-envio" type="button" onclick="enviarParaPlanilha()">
         <span id="texto-envio">Salvar dados</span>
       </button>
-    </div>
-
-    <h2>Seu pedido</h2>
-    <div class="card">
-      <div class="items" id="lista"></div>
     </div>
   </main>
 
