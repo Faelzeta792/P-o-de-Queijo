@@ -200,7 +200,8 @@
       position: relative;
     }
 
-    .texto-narrativo {
+    
+    .intro-tela{
       color: #e2d1b3;
       font-family: 'Playfair Display', serif;
       font-size: 26px;
@@ -209,8 +210,29 @@
       display: none;
       transition: opacity 2s ease;
     }
-    .texto-narrativo strong { color: var(--accent); font-style: italic; }
-    .texto-narrativo p { margin-bottom: 25px; }
+    .intro-texto p{ margin-bottom: 18px; }
+    .intro-destaque{
+      color: var(--accent);
+      font-style: italic;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    /* Preparado para receber 2 imagens (logo dourada e pacotes) */
+    .intro-imagem{ display:flex; justify-content:center; margin-bottom: 26px; }
+    .intro-imagem img{
+      width: min(560px, 85vw);
+      height: auto;
+      display:block;
+      filter: drop-shadow(0 18px 40px rgba(0,0,0,0.25));
+      border-radius: 14px;
+    }
+    .intro-imagem-logo img{
+      width: min(420px, 78vw);
+      border-radius: 0; /* logo não precisa arredondar */
+      filter: drop-shadow(0 16px 36px rgba(0,0,0,0.28));
+    }
+
 
     .btn-pular {
       position: absolute;
@@ -231,13 +253,20 @@
 
     #abertura-forno.esconder { opacity: 0; visibility: hidden; }
 
-    /* Mantém a página oficial intacta; apenas controla visibilidade durante a intro */
+        /* Mantém a página oficial intacta; apenas controla scroll durante a intro */
     body.intro-active { overflow: hidden; }
-    body.intro-active .container-loja { opacity: 0; transform: translateY(20px); transition: opacity 2s ease, transform 2s ease; }
-    body.intro-done .container-loja { opacity: 1; transform: translateY(0); }
 
-
-    /* --- TAG QUERIDINHO --- */
+    /* Visibilidade do conteúdo principal: evita ficar “preso” escondido se der erro no JS */
+    .container-loja.intro-hidden{
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 2s ease, transform 2s ease;
+    }
+    .container-loja.intro-shown{
+      opacity: 1;
+      transform: translateY(0);
+    }
+/* --- TAG QUERIDINHO --- */
     .tag-queridinho{
       position:absolute;
       top:12px;
@@ -429,20 +458,35 @@
       <div class="fumaca" style="animation-delay: -5s;"></div>
     </div>
 
+    
     <div class="narrativa-container">
-      <div id="bloco-1" class="texto-narrativo">
-        <p>Aqui o pão de queijo não nasce com pressa.</p>
-        <p>Ele começa na massa bem feita, no queijo de verdade, e no <strong>tempo certo de forno.</strong></p>
+      <!-- Sequência oficial (3 telas) -->
+      <div id="tela-1" class="intro-tela">
+        <div class="intro-imagem intro-imagem-logo">
+          <img src="img/intro-logo-dourada.png" alt="Mineiríssimo">
+        </div>
+        <div class="intro-texto">
+          <p>O melhor pão de queijo de minas agora invadindo São Paulo</p>
+        </div>
       </div>
 
-      <div id="bloco-2" class="texto-narrativo">
-        <p>Pão de queijo de verdade não se apressa.</p>
-        <p>Por isso ele chega congelado.</p>
-        <p>Não pra perder a graça — mas pra esperar o forno certo: <strong>o seu.</strong></p>
+      <div id="tela-2" class="intro-tela">
+        <div class="intro-imagem intro-imagem-pacotes">
+          <img src="img/intro-pacotes.png" alt="Pacotes Mineiríssimo">
+        </div>
+        <div class="intro-texto">
+          <p>A gente não fez um pacote pequeno…</p>
+          <p class="intro-destaque">Pacote de 1kg com vários tipos de recheios.</p>
+        </div>
+      </div>
+
+      <div id="tela-3" class="intro-tela">
+        <div class="intro-texto">
+          <p>Os primeiros lotes chegaram em Franca… e estão sumindo rápido.</p>
+        </div>
       </div>
     </div>
 
-    <button class="btn-pular" onclick="finalizarAbertura()">Esperar o forno... ou entrar agora</button>
   </div>
 
 <div class="container-loja" id="main-content">
@@ -585,45 +629,73 @@
   <script>
     
 
-    /* --- LÓGICA DA ABERTURA "FORNO" (inserida do teste) --- */
+    /* --- LÓGICA DA ABERTURA "FORNO" (sequência oficial em 3 telas) --- */
     document.addEventListener("DOMContentLoaded", () => {
-      document.body.classList.add("intro-active");
+      // Fail-safe: se algo der errado, a loja nunca fica escondida pra sempre.
+      const main = document.getElementById('main-content');
+      const intro = document.getElementById('abertura-forno');
 
-      const bloco1 = document.getElementById('bloco-1');
-      const bloco2 = document.getElementById('bloco-2');
+      try{
+        // só aplica o efeito de "reveal" se a intro existir
+        if (main && intro){
+          document.body.classList.add("intro-active");
+          main.classList.add('intro-hidden');
 
-      // Sequência de animação (mesma do teste)
-      setTimeout(() => {
-        bloco1.style.display = "block";
-        setTimeout(() => { bloco1.style.opacity = "1"; }, 100);
-      }, 800);
+          const t1 = document.getElementById('tela-1');
+          const t2 = document.getElementById('tela-2');
+          const t3 = document.getElementById('tela-3');
 
-      setTimeout(() => {
-        bloco1.style.opacity = "0";
-        setTimeout(() => {
-          bloco1.style.display = "none";
-          bloco2.style.display = "block";
-          setTimeout(() => { bloco2.style.opacity = "1"; }, 100);
-        }, 1500);
-      }, 5000);
+          const show = (el) => {
+            if (!el) return;
+            el.style.display = "block";
+            requestAnimationFrame(() => { el.style.opacity = "1"; });
+          };
+          const hide = (el) => {
+            if (!el) return;
+            el.style.opacity = "0";
+            setTimeout(()=>{ el.style.display = "none"; }, 1600);
+          };
 
-      // Finalização automática
-      setTimeout(() => {
+          // Timeline (fade suave, sem efeitos extras)
+          setTimeout(()=> show(t1), 650);            // entra tela 1
+          setTimeout(()=> hide(t1), 4200);           // sai tela 1
+          setTimeout(()=> show(t2), 5200);           // entra tela 2
+          setTimeout(()=> hide(t2), 8900);           // sai tela 2
+          setTimeout(()=> show(t3), 9800);           // entra tela 3
+          setTimeout(()=> finalizarAbertura(), 13000); // finaliza
+        } else {
+          // se não tem intro, só garante que a loja aparece normal
+          if (main){ main.classList.remove('intro-hidden'); main.classList.add('intro-shown'); }
+        }
+      } catch(err){
+        // Qualquer erro aqui NÃO pode travar o site
+        console.error('[INTRO] erro:', err);
         finalizarAbertura();
-      }, 10500);
+      }
+
+      // Fail-safe absoluto (caso algum setTimeout não rode / erro em outro script)
+      setTimeout(()=> finalizarAbertura(), 16000);
     });
 
     function finalizarAbertura() {
       const intro = document.getElementById('abertura-forno');
-      if (!intro) return;
-      intro.classList.add('esconder');
+      const main = document.getElementById('main-content');
 
+      // mostra a loja SEM depender do resto da animação
+      if (main){
+        main.classList.remove('intro-hidden');
+        main.classList.add('intro-shown');
+      }
       document.body.classList.remove("intro-active");
       document.body.classList.add("intro-done");
 
-      // Remove o elemento do DOM após a transição para não pesar
+      if (!intro) return;
+      intro.classList.add('esconder');
+
+      // Remove o overlay do DOM após a transição para não pesar
       setTimeout(() => { try { intro.remove(); } catch(e) {} }, 2500);
     }
+
 
 
 // Carrega o carrinho do navegador ou inicia vazio
